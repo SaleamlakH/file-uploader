@@ -1,0 +1,41 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "File uploader api",
+  "main": "index.js",
+  "scripts": {
+    "prod": "node dist/index",
+    "dev": "tsx watch --env-file=.env src/index",
+    "build": "tsc -p tsconfig.prod.json",
+    "format:check": "prettier --check src/*",
+    "format:write": "prettier --write src/*"
+  },
+  "author": "Sale Habtamu <saleamlak.7h@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.7.0",
+    "@prisma/client": "^7.7.0",
+    "@quixo3/prisma-session-store": "^3.1.19",
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "multer": "^2.1.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
+    "@types/node": "^25.6.0",
+    "@types/passport": "^1.0.17",
+    "@types/passport-local": "^1.0.38",
+    "@types/pg": "^8.20.0",
+    "prettier": "^3.8.3",
+    "prisma": "^6.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}
