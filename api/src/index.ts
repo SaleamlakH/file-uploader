@@ -6,6 +6,7 @@ import { prisma } from './lib/prisma';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
+import authRouter from './modules/auth/auth.route';
 
 const app = express();
 
@@ -73,6 +74,9 @@ passport.deserializeUser(async (id: string, done) => {
     done(error);
   }
 });
+
+// routes
+app.use('/auth', authRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {
