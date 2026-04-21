@@ -4,8 +4,8 @@
   "description": "File uploader api",
   "main": "index.js",
   "scripts": {
-    "prod": "node dist/index",
-    "dev": "tsx watch --env-file=.env src/index",
+    "prod": "node dist/src/index",
+    "dev": "tsx watch src/index",
     "build": "tsc -p tsconfig.prod.json",
     "format:check": "prettier --check src/*",
     "format:write": "prettier --write src/*"
