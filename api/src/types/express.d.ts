@@ -1,7 +1,7 @@
-import type { Prisma } from '../../generated/prisma/client';
+import type { Users } from '../../generated/prisma/client';
 
 declare global {
   namespace Express {
-    interface User extends Prisma.UsersFieldRefs {}
+    interface User extends Users {}
   }
 }
