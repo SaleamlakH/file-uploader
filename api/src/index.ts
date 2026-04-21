@@ -6,7 +6,6 @@ import { prisma } from './lib/prisma';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
-import type { Prisma } from '../generated/prisma/client';
 
 const app = express();
 
@@ -39,7 +38,7 @@ passport.use(
     async (email, password, done) => {
       // fetch user
       try {
-        const user: Prisma.UsersFieldRefs = await prisma.users.findUnique({
+        const user = await prisma.users.findUnique({
           where: { email },
         });
 
