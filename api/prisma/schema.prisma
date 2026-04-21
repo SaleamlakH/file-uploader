@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Users {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  folders   Folders[]
+}
+
+model Folders {
+  id        String   @id @default(cuid())
+  folder    String
+  createdAt DateTime @default(now())
+  owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  files     Files[]
+  shares    shares[]
+
+  @@index([ownerId]) // search by owner
+}
+
+model Files {
+  id         String   @id @default(cuid())
+  filename   String
+  size       Float
+  type       String
+  uploadedAt DateTime @default(now())
+  url        String
+  folder     Folders  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId   String
+
+  @@index([folderId]) // search by folder
+}
+
+model shares {
+  id         String   @id @default(cuid())
+  token      String   @unique @default(nanoid())
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  resource   Folders  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  resourceId String
+
+  @@index([expiresAt]) // for cleaning
+  @@index([resourceId]) // search by folder
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
