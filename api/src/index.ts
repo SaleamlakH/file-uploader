@@ -7,6 +7,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
 import authRouter from './modules/auth/auth.route';
+import foldersRouter from './modules/folders/folders.route';
 
 const app = express();
 
@@ -48,7 +49,7 @@ passport.use(
         }
 
         // compare password
-        const match = await bcrypt.compare(password, user.id);
+        const match = await bcrypt.compare(password, user.password);
         if (!match) {
           return done(null, false, { message: 'Incorrect email or password' });
         }
