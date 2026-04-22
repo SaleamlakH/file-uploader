@@ -68,10 +68,12 @@ The main goal of the project is to practice using PrismaORM. As a fullstack appl
 
 - POST /auth/signup
 - POST /auth/login
+- GET /logout
 
 **Folder management**
 
 - POST /folders &rarr; create folder
+- GET /folders &rarr; get all folders
 - GET /folders/:folderId &rarr; get folder
 - PUT /folders/:folderId &rarr; edit folder
 - DELETe /folders/:folderId &rarr; delete folder
