@@ -1,6 +1,6 @@
-import { body, matchedData, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import { prisma } from '../../lib/prisma';
-import type { NextFunction, Request, Response } from 'express';
+import { handleValidationResult } from '../../middlewares/handleValidationResult';
 
 const isEmailExist = async (email: string) => {
   const user = await prisma.users.findUnique({ where: { email } });
@@ -31,23 +31,6 @@ const passwordValidator = () => {
 
 const signupValidator = [emailValidator().custom(isEmailExist), passwordValidator()];
 const loginValidator = [emailValidator(), passwordValidator()];
-
-const handleValidationResult = (req: Request, res: Response, next: NextFunction) => {
-  // validation
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const validationErrors = errors.array();
-
-    return res.status(400).json({ validationErrors });
-  }
-
-  // get sanitized data
-  const { email, password } = matchedData(req);
-
-  req.body.email = email;
-  req.body.password = password;
-  next();
-};
 
 export const validateSignup = [signupValidator, handleValidationResult];
 export const validateLogin = [loginValidator, handleValidationResult];
