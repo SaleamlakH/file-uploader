@@ -41,6 +41,24 @@ export const getFolderFiles = async (req: Request, res: Response, next: NextFunc
   }
 };
 
+export const changeFolderName = async (req: Request, res: Response, next: NextFunction) => {
+  const { folderId } = req.params;
+  const authReq = req as AuthenticatedRequest;
+
+  try {
+    const { name } = req.body;
+    const folder = await services.updateFolderName({
+      ownerId: authReq.user.id,
+      id: String(folderId),
+      folder: name,
+    });
+
+    res.status(200).json(folder);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteFolder = async (req: Request, res: Response, next: NextFunction) => {
   const { folderId } = req.params;
   const authReq = req as AuthenticatedRequest;

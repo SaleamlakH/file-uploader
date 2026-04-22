@@ -17,6 +17,9 @@ foldersRouter.get('/', controllers.getAllFolders);
 // get all files of a folder
 foldersRouter.get('/:folderId', controllers.getFolderFiles);
 
+// changeFolderName
+foldersRouter.put('/:folderId', validateFolderName, controllers.changeFolderName);
+
 // delete folder
 foldersRouter.delete('/:folderId', controllers.deleteFolder);
 
