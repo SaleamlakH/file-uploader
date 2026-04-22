@@ -79,6 +79,8 @@ passport.deserializeUser(async (id: string, done) => {
 // routes
 app.use('/auth', authRouter);
 
+app.use('/folders', foldersRouter);
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {
   if (err) {
