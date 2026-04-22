@@ -53,4 +53,18 @@ const authenticateLogin = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export { signup, authenticateLogin };
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    // also delete it from store
+    req.session.destroy((err) => {
+      if (err) return next(err);
+
+      res.clearCookie('connect.sid');
+      res.status(200).json({ message: 'Logged out successfully' });
+    });
+  });
+};
+
+export { signup, authenticateLogin, logout };
