@@ -1,9 +1,12 @@
 import type { NextFunction, Request, Response } from 'express';
 import { getFolderWithFiles, getUserFolders } from './folders.service';
+import type { AuthenticatedRequest } from '../../types/authenticated-request';
 
 export const getAllFolders = async (req: Request, res: Response, next: NextFunction) => {
+  const authReq = req as AuthenticatedRequest;
+
   try {
-    const folders = await getUserFolders(req.user!.id);
+    const folders = await getUserFolders(authReq.user.id);
     res.status(200).json(folders);
   } catch (error) {
     next(error);
@@ -12,8 +15,10 @@ export const getAllFolders = async (req: Request, res: Response, next: NextFunct
 
 export const getFolderFiles = async (req: Request, res: Response, next: NextFunction) => {
   const { folderId } = req.params;
+  const authReq = req as AuthenticatedRequest;
+
   try {
-    const folder = await getFolderWithFiles({ ownerId: req.user!.id, id: String(folderId) });
+    const folder = await getFolderWithFiles({ ownerId: authReq.user.id, id: String(folderId) });
     res.json(folder);
   } catch (error) {
     next(error);
