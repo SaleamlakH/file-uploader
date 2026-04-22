@@ -40,3 +40,15 @@ export const getFolderFiles = async (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+export const deleteFolder = async (req: Request, res: Response, next: NextFunction) => {
+  const { folderId } = req.params;
+  const authReq = req as AuthenticatedRequest;
+
+  try {
+    await services.deleteFolder({ ownerId: authReq.user.id, id: String(folderId) });
+    res.status(200).json({ message: 'Folder deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+};
