@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import * as controllers from './folders.controller';
 import { requireAuth } from '../../middlewares/requireAuth';
+import { validateFolderName } from './folders.validator';
 
 const foldersRouter = Router();
 
-// check authorization
+// check authorization'
 foldersRouter.use('/', requireAuth);
+
+// create new folder
+foldersRouter.post('/', validateFolderName, controllers.createFolder);
 
 // get all folders
 foldersRouter.get('/', controllers.getAllFolders);

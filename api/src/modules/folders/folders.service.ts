@@ -1,6 +1,13 @@
 import type { Folders } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import type { FolderFetchData, FolderUpdate } from '../../types/db';
+import type { FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
+
+export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) => {
+  return prisma.folders.create({
+    data: { folder: folderName, ownerId },
+    omit: { ownerId: true },
+  });
+};
 
 export const getUserFolders = (ownerId: Folders['ownerId']) => {
   return prisma.folders.findMany({
