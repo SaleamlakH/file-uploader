@@ -10,7 +10,7 @@ export const loadOwnedFolder = async (req: Request, res: Response, next: NextFun
     const folder = await getFolderByIdForOwner({ id: String(folderId), ownerId: authReq.user.id });
     if (!folder) return res.sendStatus(404);
 
-    (req as any) = folder;
+    req.folder = folder;
     next();
   } catch (error) {
     next(error);
