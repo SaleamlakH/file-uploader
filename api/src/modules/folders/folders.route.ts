@@ -13,24 +13,20 @@ foldersRouter.use('/', requireAuth);
 // attach folder to req if found
 foldersRouter.use('/:folderId', loadOwnedFolder);
 
-// create new folder
+// Folder CRUD routes
 foldersRouter.post('/', validateFolderName, controllers.createFolder);
 
-// get all folders
 foldersRouter.get('/', controllers.getAllFolders);
 
-// get all files of a folder
-foldersRouter.get('/:folderId', controllers.getFolderFiles);
-
-// changeFolderName
 foldersRouter.put('/:folderId', validateFolderName, controllers.changeFolderName);
 
-// delete folder
 foldersRouter.delete('/:folderId', controllers.deleteFolder);
 
 // Routes related to
 // File uploading and fetching
 
 foldersRouter.post('/:folderId/files', controllers.uploadFiles);
+
+foldersRouter.get('/:folderId/files', controllers.getFolderFiles);
 
 export default foldersRouter;
