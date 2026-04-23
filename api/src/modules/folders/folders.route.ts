@@ -23,4 +23,9 @@ foldersRouter.put('/:folderId', validateFolderName, controllers.changeFolderName
 // delete folder
 foldersRouter.delete('/:folderId', controllers.deleteFolder);
 
+// Routes related to
+// File uploading and fetching
+
+foldersRouter.post('/:folderId/files', controllers.uploadFiles);
+
 export default foldersRouter;

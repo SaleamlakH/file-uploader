@@ -1,6 +1,6 @@
 import type { Folders } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import type { FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
+import type { FileUpload, FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
 
 export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) => {
   return prisma.folders.create({
@@ -46,5 +46,20 @@ export const deleteFolder = ({ ownerId, id: folderId }: FolderFetchData) => {
   return prisma.folders.delete({
     where: { id: folderId, ownerId },
     omit: { ownerId: true },
+  });
+};
+
+export const createFolderFiles = async (
+  { ownerId, id: folderId }: FolderFetchData,
+  filesData: FileUpload[],
+) => {
+  return prisma.folders.update({
+    where: { id: folderId, ownerId },
+    data: {
+      files: {
+        create: filesData,
+      },
+    },
+    include: { files: true },
   });
 };

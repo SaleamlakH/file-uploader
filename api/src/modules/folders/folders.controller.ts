@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import * as services from './folders.service';
 import type { AuthenticatedRequest } from '../../types/authenticated-request';
+import multer from 'multer';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;
@@ -70,3 +71,33 @@ export const deleteFolder = async (req: Request, res: Response, next: NextFuncti
     next(error);
   }
 };
+
+export const uploadFiles = [
+  multer({ dest: 'uploads/' }).array('files'),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { folderId } = req.params;
+    const authReq = req as AuthenticatedRequest;
+
+    const files = authReq.files as Express.Multer.File[];
+    if (!files) return res.status(404).json({ message: 'No files uploaded' });
+
+    // extract required properties
+    const filesData = files.map(({ originalname, mimetype, size, path }) => ({
+      size,
+      filename: originalname,
+      type: mimetype,
+      url: path,
+    }));
+
+    try {
+      const folderFiles = await services.createFolderFiles(
+        { ownerId: authReq.user.id, id: String(folderId) },
+        filesData,
+      );
+
+      res.status(200).json({ files: folderFiles });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
