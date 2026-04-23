@@ -9,6 +9,14 @@ export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) =
   });
 };
 
+export const getFolderByIdForOwner = ({ id: folderId, ownerId }: FolderFetchData) => {
+  return prisma.folders.findUnique({
+    where: { id: folderId, ownerId },
+    include: { files: { omit: { url: true } } },
+    omit: { ownerId: true },
+  });
+};
+
 export const getUserFolders = (ownerId: Folders['ownerId']) => {
   return prisma.folders.findMany({
     where: { ownerId },
