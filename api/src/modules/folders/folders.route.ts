@@ -29,4 +29,7 @@ foldersRouter.post('/:folderId/files', controllers.uploadFiles);
 
 foldersRouter.get('/:folderId/files', controllers.getFolderFiles);
 
+// file download route
+foldersRouter.get('/:folderId/files/:fileId', controllers.downloadFile);
+
 export default foldersRouter;

@@ -1,6 +1,6 @@
 import type { Folders } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import type { FileUpload, FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
+import type { FileGetParameters, FileUpload, FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
 
 export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) => {
   return prisma.folders.create({
@@ -61,5 +61,11 @@ export const createFolderFiles = async (
       },
     },
     include: { files: true },
+  });
+};
+
+export const getFile = async ({ fileId, folderId }: FileGetParameters) => {
+  return prisma.files.findUnique({
+    where: { id: fileId, folderId },
   });
 };

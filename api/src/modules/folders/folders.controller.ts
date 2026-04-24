@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import * as services from './folders.service';
 import type { AuthenticatedRequest } from '../../types/authenticated-request';
 import multer from 'multer';
+import path from 'node:path';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;
@@ -90,3 +91,23 @@ export const uploadFiles = [
     }
   },
 ];
+
+export const downloadFile = async (req: Request, res: Response, next: NextFunction) => {
+  const { fileId, folderId } = req.params;
+
+  try {
+    const file = await services.getFile({ fileId: String(fileId), folderId: String(folderId) });
+
+    if (!file) return res.sendStatus(404);
+
+    // from local
+    // should be updated when cloud storage is ready
+    const filePath = path.join(process.cwd(), file.url);
+    res.setHeader('Content-Type', file.type);
+    res.download(filePath, file.filename, (error) => {
+      next(error);
+    });
+  } catch (error) {
+    next(error);
+  }
+};
