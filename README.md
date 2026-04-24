@@ -74,22 +74,21 @@ The main goal of the project is to practice using PrismaORM. As a fullstack appl
 
 - POST /folders &rarr; create folder
 - GET /folders &rarr; get all folders
-- GET /folders/:folderId &rarr; get folder
 - PUT /folders/:folderId &rarr; edit folder
 - DELETe /folders/:folderId &rarr; delete folder
+
+**Folder File handling**
+
+Files can be only uploaded to a default or a custom folder.
+
+- POST /folders/:folderId/files &rarr; upload files
+- GET /folders/:folderId/files &rarr; get folder files
+- GET /folders/:folderId/files/:fileId &rarr; download file
 
 **Folder Sharing**
 
 - POST /shares &rarr; Generate shareable link
 - GET /shares/:folderId &rarr; get shared folder
-
-**File handling**
-
-Files can be only uploaded to a default or a custom folder.
-
-- POST /folders/:folderId/files &rarr; post a file or files
-- GET /files/:fileId &rarr; get details of a file
-- GET /files/:fileId/download &rarr; download file
 
 ## Database Schema
 
