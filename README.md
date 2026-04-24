@@ -64,28 +64,145 @@ The main goal of the project is to practice using PrismaORM. As a fullstack appl
 
 ## API Endpoints
 
-**User authentication**
+### Auth
 
 - POST /auth/signup
 - POST /auth/login
 - GET /logout
 
-**Folder management**
+### Folder
 
-- POST /folders &rarr; create folder
-- GET /folders &rarr; get all folders
-- PUT /folders/:folderId &rarr; edit folder
-- DELETe /folders/:folderId &rarr; delete folder
+**Create New Folder**
 
-**Folder File handling**
+- Endpoint: **POST** /folders
+- Request body
+
+  ```json
+  {
+    "name": "folder name"
+  }
+  ```
+
+- Response
+
+  ```json
+  {
+    "data": {
+      "id": "string",
+      "name": "folder name",
+      "createdAt": "Date"
+    }
+  }
+  ```
+
+**Get All Folders**
+
+- Endpoint: **GET** /folders
+- Response object:
+
+  ```json
+  {
+    "data": [
+      {
+        "id": "string",
+        "name": "folder name",
+        "createdAt": "Date"
+      }
+    ]
+  }
+  ```
+
+**Edit Folder**
+
+- Endpoint: **PUT** /folders/:folderId
+- Request
+
+  ```json
+  {
+    "name": "Updated folder name"
+  }
+  ```
+
+- Response
+
+  ```json
+  {
+    "data": {
+      "id": "string",
+      "name": "Updated folder name",
+      "createdAt": "Date"
+    }
+  }
+  ```
+
+**Delete Folder**
+
+- Endpoint: **DELETE **/folders/:folderId
+- response
+
+  ```json
+  {
+    "message": "Folder deleted successfully";
+  }
+  ```
+
+### File handling
 
 Files can be only uploaded to a default or a custom folder.
 
-- POST /folders/:folderId/files &rarr; upload files
-- GET /folders/:folderId/files &rarr; get folder files
-- GET /folders/:folderId/files/:fileId &rarr; download file
+**Upload files**
 
-**Folder Sharing**
+- Endpoint: **POST** /folders/:folderId/files
+- Request
+  - Content-Type: `multipart/form-data`
+  - Fields:
+    - `files`: one or more files
+- Response
+
+  ```json
+  {
+    "data": [
+      {
+        "id": "string",
+        "filename": "original file name",
+        "size": "file size (integer)",
+        "type": "content-type",
+        "uploadedAt": "date",
+        "folderId": "string"
+      }
+    ]
+  }
+  ```
+
+**Get folder files**
+
+- Endpoint: **GET** /folders/:folderId/files
+- Response
+
+  ```json
+  {
+    "data": [
+      {
+        "id": "string",
+        "filename": "original file name",
+        "size": "file size (integer)",
+        "type": "content-type",
+        "uploadedAt": "date",
+        "folderId": "string"
+      }
+    ]
+  }
+  ```
+
+**Download File**
+
+- Endpoint: **GET** /folders/:folderId/files/:fileId
+- Response
+  - Content-type: file mime type
+  - Content-disposition: `attachment; filename="filename.pdf"`
+  - Body: binary file stream
+
+### Folder Sharing
 
 - POST /shares &rarr; Generate shareable link
 - GET /shares/:folderId &rarr; get shared folder
