@@ -7,3 +7,7 @@ export type FolderUpdate = Pick<Folders, 'id' | 'ownerId' | 'folder'>;
 
 // files table types
 export type FileUpload = Omit<Files, 'id' | 'uploadedAt' | 'folderId'>;
+export type FileGetParameters = {
+  fileId: Files['id'];
+  folderId: Files['folderId'];
+};
