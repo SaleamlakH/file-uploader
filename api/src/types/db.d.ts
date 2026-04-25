@@ -1,4 +1,4 @@
-import type { Files, Folders } from '../../generated/prisma/client';
+import type { Files, Folders, Shares } from '../../generated/prisma/client';
 
 // folders table types
 export type FolderCreateNew = Pick<Folders, 'folder' | 'ownerId'>;
@@ -15,4 +15,10 @@ export type FileUpload = Omit<Files, 'id' | 'uploadedAt' | 'folderId'>;
 export type FileGetParameters = {
   fileId: Files['id'];
   folderId: Files['folderId'];
+};
+
+// folder shares types
+export type ShareCreateParameter = {
+  resourceId: Shares['resourceId'];
+  expiresAt: Shares['expiresAt'];
 };
