@@ -5,6 +5,7 @@ import type {
   FileUpload,
   FolderCreateNew,
   FolderFetchData,
+  FolderGetByIdParameters,
   FolderGetParameters,
   FolderUpdate,
 } from '../../types/db';
@@ -32,6 +33,16 @@ export const getFolderForOwner = ({ ownerId, folderId, includeFiles }: FolderGet
       },
     },
     omit: { ownerId: true },
+  });
+};
+
+export const getFolderById = ({ folderId, includeId, includeFiles }: FolderGetByIdParameters) => {
+  return prisma.folders.findUnique({
+    where: { id: folderId },
+    include: {
+      files: includeFiles && { omit: { url: true } },
+    },
+    omit: { id: !includeId, ownerId: true },
   });
 };
 

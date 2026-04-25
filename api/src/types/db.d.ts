@@ -9,6 +9,11 @@ export type FolderGetParameters = {
   ownerId: Folders['ownerId'];
   includeFiles: boolean;
 };
+export type FolderGetByIdParameters = {
+  folderId: Folders['id'];
+  includeId: boolean;
+  includeFiles: boolean;
+};
 
 // files table types
 export type FileUpload = Omit<Files, 'id' | 'uploadedAt' | 'folderId'>;
