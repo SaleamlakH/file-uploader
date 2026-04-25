@@ -12,6 +12,6 @@ export const createShare = async ({ resourceId, expiresAt }: ShareCreateParamete
 
 export const getShare = async (token: Shares['token']) => {
   return prisma.shares.findUnique({
-    where: { token },
+    where: { token, expiresAt: { gt: new Date() } },
   });
 };
