@@ -8,6 +8,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
 import authRouter from './modules/auth/auth.route';
 import foldersRouter from './modules/folders/folders.route';
+import sharesRouter from './modules/shares/shares.route';
 
 const app = express();
 
@@ -80,6 +81,8 @@ passport.deserializeUser(async (id: string, done) => {
 app.use('/auth', authRouter);
 
 app.use('/folders', foldersRouter);
+
+app.use('/shares', sharesRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {
