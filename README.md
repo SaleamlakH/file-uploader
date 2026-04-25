@@ -2,6 +2,20 @@
 
 This project is developed for education purpose as part of the [The Odin Project](https://www.theodinproject.com) NodeJS course.
 
+## Table of Content
+
+- [Overview](#overview)
+- [Learning Goals](#learning-goals)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+  - [Auth](#auth)
+  - [Folder](#folder)
+  - [File Handling](#file-handling)
+  - [Folder Sharing](#folder-sharing)
+- [Database Schema](#database-schema)
+
 ## Overview
 
 File uploader is a fullstack web app where an authenticated user can upload, share and download files.
