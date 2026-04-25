@@ -23,7 +23,7 @@ model Users {
 
 model Folders {
   id        String   @id @default(cuid())
-  folder    String
+  name      String
   createdAt DateTime @default(now())
   owner     Users    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId   String
