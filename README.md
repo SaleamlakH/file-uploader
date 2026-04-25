@@ -66,9 +66,65 @@ The main goal of the project is to practice using PrismaORM. As a fullstack appl
 
 ### Auth
 
-- POST /auth/signup
-- POST /auth/login
-- GET /logout
+**Create Account**
+
+- Endpoint: **POST** /auth/signup
+- Request
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "user password",
+    "confirmPassword": "user password"
+  }
+  ```
+- Response
+  ```json
+  {
+    "data": {
+      "id": "string",
+      "email": "john@example.com",
+      "createdAt": "Date",
+      "folders": [
+        {
+          "id": "string",
+          "name": "Default Folder",
+          "createdAt": "Date"
+        }
+      ]
+    }
+  }
+  ```
+
+**Login**
+
+- Endpoint: **POST** /auth/login
+- Request
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "user password"
+  }
+  ```
+- Response
+  ```json
+  {
+    "data": {
+      "id": "string",
+      "email": "john@example.com",
+      "createdAt": "Date"
+    }
+  }
+  ```
+
+**Logout**
+
+- Endpoint: **GET** /logout
+- Response:
+  ```json
+  {
+    "message": "Logged out successfully "
+  }
+  ```
 
 ### Folder
 
