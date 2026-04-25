@@ -204,8 +204,56 @@ Files can be only uploaded to a default or a custom folder.
 
 ### Folder Sharing
 
-- POST /shares &rarr; Generate shareable link
-- GET /shares/:folderId &rarr; get shared folder
+**Generate Shareable Link**
+
+- Endpoint: **POST** /shares
+- Request
+  ```json
+  {
+    "fileId": "string",
+    "expiresAt": "2026-04-26T00:00:000Z"
+  }
+  ```
+- Response
+  ```json
+  {
+    "data": {
+      "path": "shares/bLbXynJrDzLg0a3QfQh5t",
+      "expiresAt": "2026-04-26T00:00:00.000Z"
+    }
+  }
+  ```
+
+**Get Shared Folder**
+
+- Endpoint: **GET** /shares/:token
+- Response
+  ```json
+  {
+    "data": {
+      "name": "folder name",
+      "createdAt": "Date",
+      "files": [
+        {
+          "id": "string",
+          "filename": "original file name",
+          "size": "file size (integer)",
+          "type": "content-type",
+          "uploadedAt": "date",
+          "folderId": "string"
+        }
+      ]
+    }
+  }
+  ```
+
+**Download Shared Folder File**
+
+- GET /shares/:token/files/:fileId
+- Response
+  - Content-type: file mime type
+  - Content-disposition: `attachment; filename="filename.pdf"`
+  - Body: binary file stream
 
 ## Database Schema
 
