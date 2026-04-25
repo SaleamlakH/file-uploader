@@ -6,9 +6,7 @@ declare global {
       password?: string;
     }
     interface Request {
-      folder:
-        | Omit<Folders, 'ownerId'>
-        | (Omit<Folders, 'ownerId'> & { files: Omit<Files, 'url'>[] });
+      folder: Omit<Folders, 'ownerId'> & { files?: Omit<Files, 'url'>[] };
     }
   }
 }
