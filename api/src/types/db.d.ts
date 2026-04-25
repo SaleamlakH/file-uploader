@@ -1,9 +1,9 @@
 import type { Files, Folders, Shares } from '../../generated/prisma/client';
 
 // folders table types
-export type FolderCreateNew = Pick<Folders, 'folder' | 'ownerId'>;
+export type FolderCreateNew = Pick<Folders, 'name' | 'ownerId'>;
 export type FolderFetchData = Pick<Folders, 'id' | 'ownerId'>;
-export type FolderUpdate = Pick<Folders, 'id' | 'ownerId' | 'folder'>;
+export type FolderUpdate = Pick<Folders, 'id' | 'ownerId' | 'name'>;
 export type FolderGetParameters = {
   folderId: Folders['id'];
   ownerId: Folders['ownerId'];

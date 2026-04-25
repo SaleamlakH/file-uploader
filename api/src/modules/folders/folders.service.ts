@@ -10,9 +10,9 @@ import type {
   FolderUpdate,
 } from '../../types/db';
 
-export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) => {
+export const createFolder = ({ ownerId, name }: FolderCreateNew) => {
   return prisma.folders.create({
-    data: { folder: folderName, ownerId },
+    data: { name, ownerId },
     omit: { ownerId: true },
   });
 };
@@ -49,12 +49,12 @@ export const getFolderById = ({ folderId, includeId, includeFiles }: FolderGetBy
 export const updateFolderName = ({
   ownerId,
   id: folderId,
-  folder: newFolderName,
+  name: newFolderName,
 }: FolderUpdate) => {
   return prisma.folders.update({
     where: { id: folderId, ownerId },
     data: {
-      folder: newFolderName,
+      name: newFolderName,
     },
     omit: { ownerId: true },
   });

@@ -8,8 +8,7 @@ export const createFolder = async (req: Request, res: Response, next: NextFuncti
   const authReq = req as AuthenticatedRequest;
 
   try {
-    const { name } = req.body;
-    const folder = await services.createFolder({ ownerId: authReq.user.id, folder: name });
+    const folder = await services.createFolder({ ownerId: authReq.user.id, name: req.body.name });
 
     res.status(200).json(folder);
   } catch (error) {
@@ -37,11 +36,10 @@ export const changeFolderName = async (req: Request, res: Response, next: NextFu
   const authReq = req as AuthenticatedRequest;
 
   try {
-    const { name } = req.body;
     const folder = await services.updateFolderName({
       ownerId: authReq.user.id,
       id: String(folderId),
-      folder: name,
+      name: req.body.name,
     });
 
     res.status(200).json(folder);

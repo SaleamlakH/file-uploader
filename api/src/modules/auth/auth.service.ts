@@ -9,6 +9,6 @@ export const createUserWithDefaultFolder = async (email: string, password: strin
       folders: true,
     },
 
-    data: { email, password: hashedPassword, folders: { create: [{ folder: 'Default Folder' }] } },
+    data: { email, password: hashedPassword, folders: { create: [{ name: 'Default Folder' }] } },
   });
 };
