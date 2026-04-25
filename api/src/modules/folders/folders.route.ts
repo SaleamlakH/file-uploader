@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as controllers from './folders.controller';
 import { requireAuth } from '../../middlewares/requireAuth';
 import { validateFolderName } from './folders.validator';
-import { loadOwnedFolder } from './folders.middleware';
+import { loadOwnedFolderWithFiles } from './folders.middleware';
 
 const foldersRouter = Router();
 
@@ -11,7 +11,7 @@ foldersRouter.use('/', requireAuth);
 
 // responds 404 if not found
 // attach folder to req if found
-foldersRouter.use('/:folderId', loadOwnedFolder);
+foldersRouter.use('/:folderId', loadOwnedFolderWithFiles);
 
 // Folder CRUD routes
 foldersRouter.post('/', validateFolderName, controllers.createFolder);

@@ -1,6 +1,13 @@
 import type { Folders } from '../../../generated/prisma/client';
 import { prisma } from '../../lib/prisma';
-import type { FileGetParameters, FileUpload, FolderCreateNew, FolderFetchData, FolderUpdate } from '../../types/db';
+import type {
+  FileGetParameters,
+  FileUpload,
+  FolderCreateNew,
+  FolderFetchData,
+  FolderGetParameters,
+  FolderUpdate,
+} from '../../types/db';
 
 export const createFolder = ({ ownerId, folder: folderName }: FolderCreateNew) => {
   return prisma.folders.create({
@@ -16,11 +23,11 @@ export const getUserFolders = (ownerId: Folders['ownerId']) => {
   });
 };
 
-export const getFolderWithFilesForOwner = ({ ownerId, id: folderId }: FolderFetchData) => {
+export const getFolderForOwner = ({ ownerId, folderId, includeFiles }: FolderGetParameters) => {
   return prisma.folders.findUnique({
     where: { id: folderId, ownerId },
     include: {
-      files: {
+      files: includeFiles && {
         omit: { url: true },
       },
     },
