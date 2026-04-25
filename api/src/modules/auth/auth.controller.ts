@@ -3,13 +3,15 @@ import passport from 'passport';
 import type { IVerifyOptions } from 'passport-local';
 import { createUserWithDefaultFolder } from './auth.service';
 import type { Users } from '../../../generated/prisma/client';
+import bcrypt from 'bcryptjs';
 
 // signup form
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // create account with default folder
     const { email, password }: Users = req.body;
-    const user = await createUserWithDefaultFolder(email, password);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await createUserWithDefaultFolder(email, hashedPassword);
 
     // login and send user data
     req.login(user, (err) => {

@@ -1,15 +1,12 @@
-import bcrypt from 'bcryptjs';
 import { prisma } from '../../lib/prisma';
 
 export const createUserWithDefaultFolder = async (email: string, password: string) => {
-  const hashedPassword = await bcrypt.hash(password, 10);
-
   return prisma.users.create({
     include: {
       folders: { omit: { ownerId: true } },
     },
 
-    data: { email, password: hashedPassword, folders: { create: [{ name: 'Default Folder' }] } },
+    data: { email, password, folders: { create: [{ name: 'Default Folder' }] } },
   });
 };
 
