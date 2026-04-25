@@ -9,7 +9,12 @@ export const generateShareLink = async (req: Request, res: Response, next: NextF
   try {
     const share = await createShare({ resourceId: req.folder.id, expiresAt });
 
-    res.json({ path: `shares/${share.token}`, expiresAt: share.expiresAt });
+    res.json({
+      data: {
+        path: `shares/${share.token}`,
+        expiresAt: share.expiresAt,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -30,7 +35,9 @@ export const getSharedFolderWithFiles = async (req: Request, res: Response, next
 
     if (!folder) return res.sendStatus(404);
 
-    res.json(folder);
+    // remove id
+    const { id, ...data } = folder;
+    res.json({ data });
   } catch (error) {
     next(error);
   }

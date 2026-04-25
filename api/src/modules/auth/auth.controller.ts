@@ -22,7 +22,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
       // send user info including default folder
       // exclude password
       const { password, ...safeUser } = user;
-      res.json(safeUser);
+      res.json({ data: safeUser });
     });
   } catch (error) {
     next(error);
@@ -43,7 +43,7 @@ const authenticateLogin = async (req: Request, res: Response, next: NextFunction
 
             // send user data
             const { password, ...safeUser } = user;
-            res.json(safeUser);
+            res.json({ data: safeUser });
           });
         }
 

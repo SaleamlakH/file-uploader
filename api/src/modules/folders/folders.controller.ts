@@ -10,7 +10,7 @@ export const createFolder = async (req: Request, res: Response, next: NextFuncti
   try {
     const folder = await services.createFolder({ ownerId: authReq.user.id, name: req.body.name });
 
-    res.status(200).json(folder);
+    res.json({ data: folder });
   } catch (error) {
     next(error);
   }
@@ -21,14 +21,14 @@ export const getAllFolders = async (req: Request, res: Response, next: NextFunct
 
   try {
     const folders = await services.getUserFolders(authReq.user.id);
-    res.status(200).json(folders);
+    res.json({ data: folders });
   } catch (error) {
     next(error);
   }
 };
 
 export const getFolderFiles = async (req: Request, res: Response, next: NextFunction) => {
-  res.json(req.folder);
+  res.json({ data: req.folder.files });
 };
 
 export const changeFolderName = async (req: Request, res: Response, next: NextFunction) => {
@@ -42,7 +42,7 @@ export const changeFolderName = async (req: Request, res: Response, next: NextFu
       name: req.body.name,
     });
 
-    res.status(200).json(folder);
+    res.json({ data: folder });
   } catch (error) {
     next(error);
   }
@@ -54,7 +54,7 @@ export const deleteFolder = async (req: Request, res: Response, next: NextFuncti
 
   try {
     await services.deleteFolder({ ownerId: authReq.user.id, id: String(folderId) });
-    res.status(200).json({ message: 'Folder deleted successfully' });
+    res.json({ message: 'Folder deleted successfully' });
   } catch (error) {
     next(error);
   }
@@ -83,7 +83,7 @@ export const uploadFiles = [
         filesData,
       );
 
-      res.status(200).json({ files: folderFiles });
+      res.json({ data: folderFiles.files });
     } catch (error) {
       next(error);
     }
