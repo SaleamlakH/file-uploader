@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { createShare, getShare } from './shares.service';
 import { getFile, getFolderById } from '../folders/folders.service';
 import path from 'node:path';
+import { sendError } from '../../errors/sendError';
 
 export const generateShareLink = async (req: Request, res: Response, next: NextFunction) => {
   const { expiresAt } = req.body;
@@ -48,10 +49,10 @@ export const downloadSharedFolderFile = async (req: Request, res: Response, next
 
   try {
     const share = await getShare(String(token));
-    if (!share) return res.sendStatus(404);
+    if (!share) return sendError(res, 404, 'Share not found');
 
     const file = await getFile({ fileId: String(fileId), folderId: share.resourceId });
-    if (!file) return res.sendStatus(404);
+    if (!file) return sendError(res, 404, 'File not found');
 
     const filePath = path.join(process.cwd(), file.url);
 

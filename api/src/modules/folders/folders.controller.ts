@@ -3,6 +3,7 @@ import * as services from './folders.service';
 import type { AuthenticatedRequest } from '../../types/authenticated-request';
 import multer from 'multer';
 import path from 'node:path';
+import { sendError } from '../../errors/sendError';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;
@@ -67,7 +68,7 @@ export const uploadFiles = [
     const authReq = req as AuthenticatedRequest;
 
     const files = authReq.files as Express.Multer.File[];
-    if (!files) return res.status(404).json({ message: 'No files uploaded' });
+    if (!files) return sendError(res, 404, 'No files uploaded');
 
     // extract required properties
     const filesData = files.map(({ originalname, mimetype, size, path }) => ({
@@ -96,7 +97,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
   try {
     const file = await services.getFile({ fileId: String(fileId), folderId: String(folderId) });
 
-    if (!file) return res.sendStatus(404);
+    if (!file) return sendError(res, 404, 'File not found');
 
     // from local
     // should be updated when cloud storage is ready

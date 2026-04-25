@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
 import { mapValidationErrors } from '../errors/mapValidationErrors';
+import { sendError } from '../errors/sendError';
 
 export const handleValidationResult = (req: Request, res: Response, next: NextFunction) => {
   // validation
@@ -8,7 +9,7 @@ export const handleValidationResult = (req: Request, res: Response, next: NextFu
   if (!errors.isEmpty()) {
     const validationErrors = mapValidationErrors(errors.array());
 
-    return res.status(400).json({ validationErrors });
+    return sendError(res, 400, 'Validation failed', validationErrors);
   }
 
   // set sanitized data

@@ -4,6 +4,7 @@ import type { IVerifyOptions } from 'passport-local';
 import { createUserWithDefaultFolder } from './auth.service';
 import type { Users } from '../../../generated/prisma/client';
 import bcrypt from 'bcryptjs';
+import { sendError } from '../../errors/sendError';
 
 // signup form
 const signup = async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +50,7 @@ const authenticateLogin = async (req: Request, res: Response, next: NextFunction
 
         // authentication error message
         if (info) {
-          res.status(400).json({ message: info.message });
+          sendError(res, 400, info.message);
         }
       },
     )(req, res, next);
