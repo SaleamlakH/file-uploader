@@ -4,8 +4,6 @@ import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { prisma } from './lib/prisma';
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import bcrypt from 'bcryptjs';
 import authRouter from './modules/auth/auth.route';
 import foldersRouter from './modules/folders/folders.route';
 import sharesRouter from './modules/shares/shares.route';
@@ -33,49 +31,6 @@ app.use(
 );
 
 app.use(passport.session());
-
-// authentication verifier
-passport.use(
-  new LocalStrategy(
-    { usernameField: 'email', passwordField: 'password' },
-    async (email, password, done) => {
-      // fetch user
-      try {
-        const user = await prisma.users.findUnique({
-          where: { email },
-        });
-
-        if (!user) {
-          return done(null, false, { message: 'Incorrect email or password' });
-        }
-
-        // compare password
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-          return done(null, false, { message: 'Incorrect email or password' });
-        }
-
-        done(null, user);
-      } catch (error) {
-        done(error);
-      }
-    },
-  ),
-);
-
-// serialize and deserialize authenticated user
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id: string, done) => {
-  try {
-    const user = await prisma.users.findUnique({ where: { id } });
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
 
 // routes
 app.use('/auth', authRouter);

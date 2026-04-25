@@ -2,7 +2,9 @@ import type { Files, Folders, Users } from '../../generated/prisma/client';
 
 declare global {
   namespace Express {
-    interface User extends Users {}
+    interface User extends Users {
+      password?: string;
+    }
     interface Request {
       folder:
         | Omit<Folders, 'ownerId'>
