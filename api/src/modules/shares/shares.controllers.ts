@@ -1,5 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { createShare } from './shares.service';
+import { createShare, getShare } from './shares.service';
+import { getFolderById } from '../folders/folders.service';
 
 export const generateShareLink = async (req: Request, res: Response, next: NextFunction) => {
   const { expiresAt } = req.body;
@@ -8,6 +9,27 @@ export const generateShareLink = async (req: Request, res: Response, next: NextF
     const share = await createShare({ resourceId: req.folder.id, expiresAt });
 
     res.json({ path: `shares/${share.token}`, expiresAt: share.expiresAt });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getSharedFolderWithFiles = async (req: Request, res: Response, next: NextFunction) => {
+  const { token } = req.params;
+
+  try {
+    const share = await getShare(String(token));
+    if (!share) return res.sendStatus(404);
+
+    const folder = await getFolderById({
+      folderId: share.resourceId,
+      includeId: false,
+      includeFiles: true,
+    });
+
+    if (!folder) return res.sendStatus(404);
+
+    res.json(folder);
   } catch (error) {
     next(error);
   }
