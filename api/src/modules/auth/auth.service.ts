@@ -6,7 +6,7 @@ export const createUserWithDefaultFolder = async (email: string, password: strin
 
   return prisma.users.create({
     include: {
-      folders: true,
+      folders: { omit: { ownerId: true } },
     },
 
     data: { email, password: hashedPassword, folders: { create: [{ name: 'Default Folder' }] } },
