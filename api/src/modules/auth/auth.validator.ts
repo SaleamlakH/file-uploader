@@ -15,6 +15,7 @@ const emailValidator = () => {
     .trim()
     .notEmpty()
     .withMessage('Email is required')
+    .bail()
     .isEmail()
     .withMessage('Incorrect email format')
     .toLowerCase();
@@ -25,6 +26,7 @@ const passwordValidator = () => {
     .trim()
     .notEmpty()
     .withMessage('Password is required')
+    .bail()
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters');
 };
