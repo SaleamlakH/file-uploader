@@ -5,6 +5,7 @@ import { createUserWithDefaultFolder } from './auth.service';
 import type { Users } from '../../../generated/prisma/client';
 import bcrypt from 'bcryptjs';
 import { sendError } from '../../errors/sendError';
+import type { AuthenticatedRequest } from '../../types/authenticated-request';
 
 // signup form
 const signup = async (req: Request, res: Response, next: NextFunction) => {
@@ -73,4 +74,15 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export { signup, authenticateLogin, logout };
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  const user = (req as AuthenticatedRequest).user;
+
+  try {
+    const { password, id, ...safeUser } = user;
+    res.json({ data: safeUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { signup, authenticateLogin, logout, getUser };

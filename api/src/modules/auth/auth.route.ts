@@ -5,6 +5,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
 import { getUserByEmail, getUserById } from './auth.service';
+import { requireAuth } from '../../middlewares/requireAuth';
 
 // authentication verifier
 passport.use(
@@ -54,5 +55,7 @@ authRouter.post('/signup', ...validateSignup, authController.signup);
 authRouter.post('/login', ...validateLogin, authController.authenticateLogin);
 
 authRouter.get('/logout', authController.logout);
+
+authRouter.get('/me', requireAuth, authController.getUser);
 
 export default authRouter;
