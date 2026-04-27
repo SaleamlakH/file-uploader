@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { type NextFunction, type Request, type Response } from 'express';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { prisma } from './lib/prisma';
@@ -7,6 +7,7 @@ import passport from 'passport';
 import authRouter from './modules/auth/auth.route';
 import foldersRouter from './modules/folders/folders.route';
 import sharesRouter from './modules/shares/shares.route';
+import { sendError } from './errors/sendError';
 
 const app = express();
 
@@ -38,6 +39,12 @@ app.use('/auth', authRouter);
 app.use('/folders', foldersRouter);
 
 app.use('/shares', sharesRouter);
+
+// error handler
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error(err);
+  sendError(res, 500, 'Internal server error');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (err) => {
