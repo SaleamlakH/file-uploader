@@ -1,9 +1,17 @@
 import Navbar from './layout/navbar/Navbar';
+import style from './app.module.css';
+import { Outlet } from 'react-router';
 
 function App() {
   return (
     <>
-      <Navbar />
+      <header className={style.header}>
+        <Navbar />
+      </header>
+
+      <main className={style.main}>
+        <Outlet />
+      </main>
     </>
   );
 }

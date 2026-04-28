@@ -1,0 +1,103 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  color: hsl(0 0 15);
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.container {
+  padding: 0.5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: hsl(0 0 100);
+  padding: 1.2em;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 5px hsl(0 0 70);
+}
+
+.card:hover {
+  box-shadow: 0 0 5px hsl(210 80 50);
+}
+
+.card > div:first-child {
+  display: flex;
+  gap: 15px;
+}
+
+.card svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.folderName {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.folderIcon {
+  background: hsl(200 70 88);
+  color: blue;
+  padding: 0.5em 0.6em 0.4em;
+  border-radius: 10px;
+}
+
+.cardHeader {
+  overflow: hidden;
+  flex: 1;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.fileCount {
+  display: flex;
+  align-items: center;
+  padding: 0.1em 0;
+  color: hsl(0 0 30);
+}
+
+.fileCount svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.cardMenuBtn {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  top: -8px;
+}
+
+.cardMenuBtn:hover {
+  background-color: hsl(210 80 90);
+}
+
+.createdAt {
+  color: hsl(0 0 30);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router';
 import App from './App';
+import Dashboard from './pages/dashboard/Dashboard';
 
 const routes: RouteObject[] = [
   {
@@ -8,6 +9,7 @@ const routes: RouteObject[] = [
     children: [
       {
         index: true,
+        element: <Dashboard />,
       },
       {
         path: '/folders/:folderId',
