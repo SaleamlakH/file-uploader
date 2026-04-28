@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import style from './action.module.css';
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 
 type BaseProps = {
   children: ReactNode;
@@ -34,33 +34,33 @@ type LinkProps = React.ComponentProps<typeof Link> & {
 
 type ActionProps = (withVariant | withClassName) & (AnchorProps | LinkProps | ButtonProps);
 
-const Action = (props: ActionProps) => {
-  const { children, variant, className } = props;
+const Action = forwardRef<HTMLButtonElement, ActionProps>(
+  ({ children, variant, className, ...props }, ref) => {
+    const classes = `${style.action} ${className || (variant ? style[variant] : '')}`;
 
-  const classes = `${style.action} ${className || (variant ? style[variant] : '')}`;
+    if (props.as === 'a') {
+      return (
+        <a {...props} href={props.href} className={classes}>
+          {children}
+        </a>
+      );
+    }
 
-  if (props.as === 'a') {
+    if (props.as === 'link') {
+      return (
+        <Link {...props} to={props.to} className={classes}>
+          {children}
+        </Link>
+      );
+    }
+
+    // default button
     return (
-      <a {...props} href={props.href} className={classes}>
+      <button {...props} ref={ref} onClick={props.onClick} className={classes}>
         {children}
-      </a>
+      </button>
     );
-  }
-
-  if (props.as === 'link') {
-    return (
-      <Link {...props} to={props.to} className={classes}>
-        {children}
-      </Link>
-    );
-  }
-
-  // default button
-  return (
-    <button {...props} onClick={props.onClick} className={classes}>
-      {children}
-    </button>
-  );
-};
+  },
+);
 
 export default Action;
