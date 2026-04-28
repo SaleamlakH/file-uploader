@@ -1,8 +1,8 @@
-import { Link } from 'react-router';
 import Action from '../../components/Action/Action';
-import { Add, Folder, FileText, Clock, MenuDots } from '../../components/Icons';
+import { Add } from '../../components/Icons';
 import style from './dashboard.module.css';
 import DialogForm from '../../components/dialog-form/DialogForm';
+import FolderCard from '../../components/folder-card/FolderCard';
 
 export default function Dashboard() {
   return (
@@ -27,32 +27,8 @@ export default function Dashboard() {
 
       {/* folder cards */}
       <div className={style.container}>
-        {[1, 2, 3].map(() => (
-          <div className={style.card}>
-            <div>
-              <Link to="/folders/folderId" className={style.folderName}>
-                <div className={style.folderIcon}>
-                  <Folder />
-                </div>
-                <div className={style.cardHeader}>
-                  <h3>Work Documents Documents Documents</h3>
-                  <div className={style.fileCount}>
-                    <FileText />
-                    <span>5 files</span>
-                  </div>
-                </div>
-              </Link>
-
-              <button className={style.cardMenuBtn}>
-                <MenuDots />
-              </button>
-            </div>
-
-            <div className={style.createdAt}>
-              <Clock />
-              <span>Created Apr 28, 2024 </span>
-            </div>
-          </div>
+        {[1, 2, 3].map((i) => (
+          <FolderCard key={i} />
         ))}
       </div>
 
