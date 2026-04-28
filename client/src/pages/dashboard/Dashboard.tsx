@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import Action from '../../components/Action/Action';
 import { Add, Folder, FileText, Clock, MenuDots } from '../../components/Icons';
 import style from './dashboard.module.css';
+import DialogForm from '../../components/dialog-form/DialogForm';
 
 export default function Dashboard() {
   return (
@@ -55,42 +56,22 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* modals */}
-      <dialog id="create-folder" className={style.dialog}>
-        <form className={style.form}>
-          <div className={style.formHeader}>
-            <h3>Create New Folder</h3>
-          </div>
-
-          <div>
-            <label htmlFor="name">Folder Name</label>
-            <input
-              className={style.input}
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Folder name"
-              autoFocus
-            />
-          </div>
-
-          <div className={style.btns}>
-            <Action
-              as="button"
-              type="button"
-              command="close"
-              commandFor="create-folder"
-              variant="secondary"
-            >
-              Cancel
-            </Action>
-            <Action as="button" variant="primary">
-              <Add />
-              Create
-            </Action>
-          </div>
-        </form>
-      </dialog>
+      {/* Create Folder modals */}
+      <DialogForm
+        id="create-folder"
+        header="Create New Folder"
+        submitBtn={{ icon: <Add />, text: 'Create' }}
+      >
+        <label htmlFor="name">Folder Name</label>
+        <input
+          className={style.input}
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Folder name"
+          autoFocus
+        />
+      </DialogForm>
     </>
   );
 }
