@@ -5,18 +5,23 @@ const routes: RouteObject[] = [
   {
     path: '/',
     element: <App />,
+    children: [
+      {
+        index: true,
+      },
+      {
+        path: '/folders/:folderId',
+      },
+      {
+        path: '/shares/:token',
+      },
+    ],
   },
   {
     path: '/signup',
   },
   {
     path: '/login',
-  },
-  {
-    path: '/folders/:folderId',
-  },
-  {
-    path: '/shares/:token',
   },
 ];
 
