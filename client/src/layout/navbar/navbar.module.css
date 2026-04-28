@@ -1,0 +1,85 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  color: hsl(0 0 15);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.brand img {
+  height: 1.8em;
+}
+
+.rightNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user {
+  background-color: hsl(0 0 80);
+  padding: 0.4em;
+  border-radius: 5em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.85em;
+}
+
+.user svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.links {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login {
+  border: 1px solid hsl(240 50 50);
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  font-weight: 700;
+}
+
+.login:hover,
+.login:focus {
+  background-color: hsl(0 0 85);
+}
+
+.signup {
+  background-color: hsl(240 70 40);
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  color: hsl(0 0 90);
+  font-weight: 700;
+}
+
+.signup:hover,
+.signup:focus {
+  background-color: hsl(240 70 25);
+}
+
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: hsl(0 60 50);
+  padding: 0.4em 0.8em;
+  border-radius: 10px;
+}
+
+.logout:hover,
+.logout:focus {
+  background-color: hsl(0 0 85);
+}
