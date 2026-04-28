@@ -12,7 +12,13 @@ export default function Dashboard() {
           <div>Organize and manage your files</div>
         </div>
 
-        <Action as="button" onClick={() => console.log('dialog')} variant="primary">
+        <Action
+          as="button"
+          command="show-modal"
+          commandFor="create-folder"
+          onClick={() => console.log('dialog')}
+          variant="primary"
+        >
           <Add />
           New Folder
         </Action>
@@ -48,6 +54,43 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
+
+      {/* modals */}
+      <dialog id="create-folder" className={style.dialog}>
+        <form className={style.form}>
+          <div className={style.formHeader}>
+            <h3>Create New Folder</h3>
+          </div>
+
+          <div>
+            <label htmlFor="name">Folder Name</label>
+            <input
+              className={style.input}
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Folder name"
+              autoFocus
+            />
+          </div>
+
+          <div className={style.btns}>
+            <Action
+              as="button"
+              type="button"
+              command="close"
+              commandFor="create-folder"
+              variant="secondary"
+            >
+              Cancel
+            </Action>
+            <Action as="button" variant="primary">
+              <Add />
+              Create
+            </Action>
+          </div>
+        </form>
+      </dialog>
     </>
   );
 }

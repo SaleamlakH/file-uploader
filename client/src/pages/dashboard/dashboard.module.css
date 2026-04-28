@@ -101,3 +101,53 @@
   align-items: center;
   gap: 5px;
 }
+
+.dialog {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  border: none;
+  border-radius: 15px;
+  width: min(100%, 400px);
+  backdrop-filter: blur(50px);
+}
+
+.dialog::backdrop {
+  backdrop-filter: blur(3px);
+  background-color: hsl(0 0 25 / 0.8);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: hsl(0 0 15);
+}
+
+.formHeader h3 {
+  margin: 0.2em 0;
+}
+
+.input {
+  padding: 0.8em;
+  margin-top: 0.5em;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid hsl(0 0 70);
+  display: block;
+  width: 100%;
+  color: inherit;
+}
+
+.input:focus {
+  outline-color: hsl(210 80 50);
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+}
+
+.btns > button {
+  flex: 1;
+}
