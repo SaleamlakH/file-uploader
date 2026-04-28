@@ -16,19 +16,20 @@ type withClassName = BaseProps & {
   variant?: never;
 };
 
-type ButtonProps = {
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: 'button';
   onClick?: () => void;
+  command?: string;
+  commandFor?: string;
 };
 
-type AnchorProps = {
+type AnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   as: 'a';
   href: string;
 };
 
-type LinkProps = {
+type LinkProps = React.ComponentProps<typeof Link> & {
   as: 'link';
-  to: string;
 };
 
 type ActionProps = (withVariant | withClassName) & (AnchorProps | LinkProps | ButtonProps);
@@ -40,7 +41,7 @@ const Action = (props: ActionProps) => {
 
   if (props.as === 'a') {
     return (
-      <a href={props.href} className={classes}>
+      <a {...props} href={props.href} className={classes}>
         {children}
       </a>
     );
@@ -48,7 +49,7 @@ const Action = (props: ActionProps) => {
 
   if (props.as === 'link') {
     return (
-      <Link to={props.to} className={classes}>
+      <Link {...props} to={props.to} className={classes}>
         {children}
       </Link>
     );
@@ -56,7 +57,7 @@ const Action = (props: ActionProps) => {
 
   // default button
   return (
-    <button onClick={props.onClick} className={classes}>
+    <button {...props} onClick={props.onClick} className={classes}>
       {children}
     </button>
   );
