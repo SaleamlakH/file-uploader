@@ -45,31 +45,6 @@
   gap: 10px;
 }
 
-.login {
-  border: 1px solid hsl(240 50 50);
-  border-radius: 10px;
-  padding: 0.5em 1em;
-  font-weight: 700;
-}
-
-.login:hover,
-.login:focus {
-  background-color: hsl(0 0 85);
-}
-
-.signup {
-  background-color: hsl(240 70 40);
-  border-radius: 10px;
-  padding: 0.5em 1em;
-  color: hsl(0 0 90);
-  font-weight: 700;
-}
-
-.signup:hover,
-.signup:focus {
-  background-color: hsl(240 70 25);
-}
-
 .logout {
   display: flex;
   align-items: center;

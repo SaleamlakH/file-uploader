@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import logoSvg from '../../assets/logo.svg';
 import { Logout as LogoutIcon, User as UserIcon } from '../../components/Icons';
 import style from './navbar.module.css';
+import Action from '../../components/Action/Action';
 
 function Navbar() {
   return (
@@ -17,16 +18,18 @@ function Navbar() {
           t@gmail.com
         </div>
         <div className={style.links}>
-          <Link to="/login" className={style.login}>
+          <Action as="link" to="/login" variant="secondary">
             Login
-          </Link>
-          <Link to="/signup" className={style.signup}>
+          </Action>
+
+          <Action as="link" to="/signup" variant="primary">
             Signup
-          </Link>
-          <Link to="/logout" className={style.logout}>
+          </Action>
+
+          <Action as="link" to="/logout" className={style.logout}>
             <LogoutIcon />
             Logout
-          </Link>
+          </Action>
         </div>
       </div>
     </nav>

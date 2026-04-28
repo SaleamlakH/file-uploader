@@ -98,15 +98,17 @@ export const Link = () => {
 
 export const Add = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 32 32">
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M16 25V7m-9 9h18"
-        strokeWidth="2"
-      />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
+      <g transform="scale(1.6), translate(-6, -6)">
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M16 25V7m-9 9h18"
+          strokeWidth="2"
+        />
+      </g>
     </svg>
   );
 };

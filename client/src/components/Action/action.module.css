@@ -1,0 +1,42 @@
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  white-space: nowrap;
+}
+
+button.action svg {
+  width: 1em;
+  height: 1em;
+}
+
+button.action {
+  font-size: 1rem;
+  padding: 0.7em;
+}
+
+.primary {
+  background-color: hsl(210 94 49);
+  border-radius: 10px;
+  padding: 0.5em 0.8em;
+  color: hsl(0 0 100);
+  font-weight: 700;
+}
+
+.primary:hover,
+.primary:focus {
+  background-color: hsl(200 60 40);
+}
+
+.secondary {
+  border: 1px solid hsl(210 94 49);
+  border-radius: 10px;
+  padding: 0.5em 1em;
+  font-weight: 700;
+}
+
+.secondary:hover,
+.secondary:focus {
+  background-color: hsl(0 0 85);
+}
