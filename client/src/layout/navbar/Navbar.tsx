@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import logoSvg from '../../assets/logo.svg';
 import { Logout as LogoutIcon, User as UserIcon } from '../../components/Icons';
 import style from './navbar.module.css';
@@ -5,10 +6,10 @@ import style from './navbar.module.css';
 function Navbar() {
   return (
     <nav className={style.navbar}>
-      <a href="#" className={style.brand}>
+      <Link to="/login" className={style.brand}>
         <img src={logoSvg} alt="logo" />
         <span>Cloudstore</span>
-      </a>
+      </Link>
 
       <div className={style.rightNav}>
         <div className={style.user}>
@@ -16,16 +17,16 @@ function Navbar() {
           t@gmail.com
         </div>
         <div className={style.links}>
-          <a href="#" className={style.login}>
+          <Link to="/login" className={style.login}>
             Login
-          </a>
-          <a href="#" className={style.signup}>
+          </Link>
+          <Link to="/signup" className={style.signup}>
             Signup
-          </a>
-          <a href="#" className={style.logout}>
+          </Link>
+          <Link to="/logout" className={style.logout}>
             <LogoutIcon />
             Logout
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
