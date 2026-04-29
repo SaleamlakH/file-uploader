@@ -8,6 +8,7 @@ type Props = React.DialogHTMLAttributes<HTMLDialogElement> & {
   submitBtn: {
     icon?: ReactNode;
     text: string;
+    variant?: 'primary' | 'danger';
   };
 };
 
@@ -34,7 +35,7 @@ export default function DialogForm(props: Props) {
             Cancel
           </Action>
 
-          <Action as="button" variant="primary">
+          <Action as="button" variant={submitBtn.variant || 'primary'}>
             {submitBtn.icon}
             {submitBtn.text}
           </Action>

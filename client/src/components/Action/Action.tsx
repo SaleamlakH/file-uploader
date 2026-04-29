@@ -7,7 +7,7 @@ type BaseProps = {
 };
 
 type withVariant = BaseProps & {
-  variant: 'primary' | 'secondary';
+  variant: 'primary' | 'secondary' | 'danger';
   className?: never;
 };
 

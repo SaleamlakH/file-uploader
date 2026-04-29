@@ -17,7 +17,8 @@ button.action {
   padding: 0.7em;
 }
 
-.primary {
+.primary,
+.danger {
   background-color: hsl(210 94 49);
   border-radius: 10px;
   padding: 0.5em 0.8em;
@@ -25,9 +26,18 @@ button.action {
   font-weight: 700;
 }
 
+.danger {
+  background-color: hsl(0 100 60);
+}
+
 .primary:hover,
 .primary:focus {
   background-color: hsl(200 60 40);
+}
+
+.danger:hover,
+.danger:focus {
+  background-color: hsl(0 100 45);
 }
 
 .secondary {
