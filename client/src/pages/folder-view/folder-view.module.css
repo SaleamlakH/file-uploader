@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 0.5em;
+  color: hsl(0 0 15);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.folderName {
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.menu[class~='action-items'] {
+  right: 0.5em;
+  top: 0px;
+}
