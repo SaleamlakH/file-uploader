@@ -4,7 +4,14 @@ import { Link } from 'react-router';
 import { Clock, FileText, Folder, MenuDots } from '../Icons';
 import Action from '../Action/Action';
 
-export default function FolderCard() {
+type FolderCardProps = {
+  dialogIds: {
+    edit: string;
+    share: string;
+  };
+};
+
+export default function FolderCard({ dialogIds }: FolderCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuBtnRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -48,12 +55,22 @@ export default function FolderCard() {
         {/* menu options */}
         <div className={`${style.menuItems} ${menuOpen ? style.open : ''}`} ref={menuRef}>
           {/* share (open form) */}
-          <Action as="button" className={style.item}>
+          <Action
+            as="button"
+            command="show-modal"
+            commandFor={dialogIds.share}
+            className={style.item}
+          >
             Share
           </Action>
 
           {/* edit (open form) */}
-          <Action as="button" className={style.item}>
+          <Action
+            as="button"
+            command="show-modal"
+            commandFor={dialogIds.share}
+            className={style.item}
+          >
             Edit
           </Action>
 

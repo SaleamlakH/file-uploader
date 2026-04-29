@@ -3,6 +3,7 @@ import { Add } from '../../components/Icons';
 import style from './dashboard.module.css';
 import DialogForm from '../../components/dialog-form/DialogForm';
 import FolderCard from '../../components/folder-card/FolderCard';
+import ShareForm from '../../components/share-form/ShareForm';
 
 export default function Dashboard() {
   return (
@@ -28,7 +29,15 @@ export default function Dashboard() {
       {/* folder cards */}
       <div className={style.container}>
         {[1, 2, 3].map((i) => (
-          <FolderCard key={i} />
+          <>
+            <FolderCard
+              key={i}
+              dialogIds={{ share: `share-folder-${i}`, edit: `edit-folder${i}` }}
+            />
+
+            {/* share-folder form */}
+            <ShareForm id={`share-folder-${i}`} />
+          </>
         ))}
       </div>
 
