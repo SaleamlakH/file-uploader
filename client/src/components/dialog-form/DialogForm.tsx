@@ -6,7 +6,7 @@ type Props = React.DialogHTMLAttributes<HTMLDialogElement> & {
   children: ReactNode;
   header: string;
   submitBtn: {
-    icon: ReactNode;
+    icon?: ReactNode;
     text: string;
   };
 };
