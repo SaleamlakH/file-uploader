@@ -21,7 +21,7 @@ export default function DialogForm(props: Props) {
           <h3>{header}</h3>
         </div>
 
-        <div>{children}</div>
+        <div className={style.fields}>{children}</div>
 
         <div className={style.btns}>
           <Action

@@ -16,18 +16,3 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
-
-.input {
-  padding: 0.8em;
-  margin: 0.5em 0;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid hsl(0 0 70);
-  display: block;
-  width: 100%;
-  color: inherit;
-}
-
-.input:focus {
-  outline-color: hsl(210 80 50);
-}
