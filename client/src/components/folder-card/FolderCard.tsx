@@ -8,6 +8,7 @@ type FolderCardProps = {
   dialogIds: {
     edit: string;
     share: string;
+    delete: string;
   };
 };
 
@@ -75,7 +76,12 @@ export default function FolderCard({ dialogIds }: FolderCardProps) {
           </Action>
 
           {/* delete (send request)*/}
-          <Action as="link" to="#" className={`${style.item} ${style.deleteLink}`}>
+          <Action
+            as="button"
+            command="show-modal"
+            commandFor={dialogIds.delete}
+            className={`${style.item} ${style.deleteLink}`}
+          >
             Delete
           </Action>
         </div>

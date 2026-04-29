@@ -5,6 +5,7 @@ import DialogForm from '../../components/dialog-form/DialogForm';
 import FolderCard from '../../components/folder-card/FolderCard';
 import ShareForm from '../../components/share-form/ShareForm';
 import EditForm from '../../components/edit-form/EditForm';
+import DeleteFolder from '../../components/folder-delete/FolderDelete';
 
 export default function Dashboard() {
   return (
@@ -33,7 +34,11 @@ export default function Dashboard() {
           <>
             <FolderCard
               key={i}
-              dialogIds={{ share: `share-folder-${i}`, edit: `edit-folder-${i}` }}
+              dialogIds={{
+                share: `share-folder-${i}`,
+                edit: `edit-folder-${i}`,
+                delete: `delete-folder-${i}`,
+              }}
             />
 
             {/* share-folder form */}
@@ -41,6 +46,9 @@ export default function Dashboard() {
 
             {/* Edit folder form */}
             <EditForm id={`edit-folder-${i}`} />
+
+            {/* Delete folder */}
+            <DeleteFolder id={`delete-folder-${i}`} />
           </>
         ))}
       </div>
