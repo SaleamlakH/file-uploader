@@ -68,7 +68,7 @@ export default function FolderCard({ dialogIds }: FolderCardProps) {
           <Action
             as="button"
             command="show-modal"
-            commandFor={dialogIds.share}
+            commandFor={dialogIds.edit}
             className={style.item}
           >
             Edit
