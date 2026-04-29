@@ -1,0 +1,44 @@
+button.menuBtn svg {
+  width: 2em;
+  height: 2em;
+}
+
+button.menuBtn {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 0.2em;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  right: 1.5em;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  background-color: hsl(0 0 100);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px hsl(0 0 70);
+}
+
+.menu.open {
+  display: flex;
+}
+
+.menu .menuItem {
+  background-color: inherit;
+  padding: 1em 3em 1em 0.5em;
+  justify-content: flex-start;
+}
+
+.menuItem:hover {
+  background-color: hsl(210 80 85);
+}
+
+.menuBtn:hover {
+  background-color: hsl(210 80 90);
+}

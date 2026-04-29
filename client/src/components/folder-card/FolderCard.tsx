@@ -1,33 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
 import style from './folder-card.module.css';
 import { Link } from 'react-router';
-import { Clock, FileText, Folder, MenuDots } from '../Icons';
-import Action from '../Action/Action';
+import { Clock, FileText, Folder } from '../Icons';
+import FolderActionMenu from '../menu/FolderActionMenu';
+import type { ReactElement } from 'react';
 
 type FolderCardProps = {
-  dialogIds: {
-    edit: string;
-    share: string;
-    delete: string;
-  };
+  children: ReactElement<typeof FolderActionMenu>;
 };
 
-export default function FolderCard({ dialogIds }: FolderCardProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuBtnRef = useRef<HTMLButtonElement | null>(null);
-  const menuRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleMenuBtnClick = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleMenuBtnClick);
-    return () => document.removeEventListener('mousedown', handleMenuBtnClick);
-  }, []);
-
+export default function FolderCard({ children }: FolderCardProps) {
   return (
     <div className={style.card}>
       <div>
@@ -44,47 +25,7 @@ export default function FolderCard({ dialogIds }: FolderCardProps) {
           </div>
         </Link>
 
-        <Action
-          as="button"
-          ref={menuBtnRef}
-          onClick={() => setMenuOpen((prev) => !prev)}
-          className={style.cardMenuBtn}
-        >
-          <MenuDots />
-        </Action>
-
-        {/* menu options */}
-        <div className={`${style.menuItems} ${menuOpen ? style.open : ''}`} ref={menuRef}>
-          {/* share (open form) */}
-          <Action
-            as="button"
-            command="show-modal"
-            commandFor={dialogIds.share}
-            className={style.item}
-          >
-            Share
-          </Action>
-
-          {/* edit (open form) */}
-          <Action
-            as="button"
-            command="show-modal"
-            commandFor={dialogIds.edit}
-            className={style.item}
-          >
-            Edit
-          </Action>
-
-          {/* delete (send request)*/}
-          <Action
-            as="button"
-            command="show-modal"
-            commandFor={dialogIds.delete}
-            className={`${style.item} ${style.deleteLink}`}
-          >
-            Delete
-          </Action>
-        </div>
+        {children}
       </div>
 
       <div className={style.createdAt}>

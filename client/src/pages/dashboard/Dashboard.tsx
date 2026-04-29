@@ -6,6 +6,7 @@ import FolderCard from '../../components/folder-card/FolderCard';
 import ShareForm from '../../components/share-form/ShareForm';
 import EditForm from '../../components/edit-form/EditForm';
 import DeleteFolder from '../../components/folder-delete/FolderDelete';
+import FolderActionMenu from '../../components/menu/FolderActionMenu';
 
 export default function Dashboard() {
   return (
@@ -32,14 +33,16 @@ export default function Dashboard() {
       <div className={style.container}>
         {[1, 2, 3].map((i) => (
           <>
-            <FolderCard
-              key={i}
-              dialogIds={{
-                share: `share-folder-${i}`,
-                edit: `edit-folder-${i}`,
-                delete: `delete-folder-${i}`,
-              }}
-            />
+            <FolderCard key={i}>
+              <FolderActionMenu
+                className={style.cardMenu}
+                dialogIds={{
+                  share: `share-folder-${i}`,
+                  edit: `edit-folder-${i}`,
+                  delete: `delete-folder-${i}`,
+                }}
+              />
+            </FolderCard>
 
             {/* share-folder form */}
             <ShareForm id={`share-folder-${i}`} />
