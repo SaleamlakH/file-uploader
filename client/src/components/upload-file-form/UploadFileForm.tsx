@@ -25,11 +25,7 @@ export default function UploadFileForm() {
   };
 
   return (
-    <DialogForm
-      id="upload-file"
-      header="Upload Files"
-      submitBtn={{ icon: <Upload />, text: 'Upload' }}
-    >
+    <DialogForm id="upload-file" header="Upload Files">
       <div
         className={`${style.dropZone} ${isDragging ? style.dropZoneActive : ''}`}
         onDragOver={(e) => {
@@ -77,6 +73,16 @@ export default function UploadFileForm() {
           ))}
         </div>
       )}
+
+      <div className="buttons">
+        <Action type="button" command="close" commandFor="upload-file" variant="secondary">
+          Cancel
+        </Action>
+        <Action variant="primary">
+          <Upload />
+          Upload
+        </Action>
+      </div>
     </DialogForm>
   );
 }

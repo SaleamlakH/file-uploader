@@ -1,5 +1,5 @@
 import Action from '../../components/Action/Action';
-import { Add } from '../../components/Icons';
+import { Add, Link as LinkIcon } from '../../components/Icons';
 import style from './dashboard.module.css';
 import DialogForm from '../../components/dialog-form/DialogForm';
 import FolderCard from '../../components/folder-card/FolderCard';
@@ -7,6 +7,7 @@ import ShareForm from '../../components/share-form/ShareForm';
 import EditForm from '../../components/edit-form/EditForm';
 import DeleteFolder from '../../components/folder-delete/FolderDelete';
 import FolderActionMenu from '../../components/menu/FolderActionMenu';
+import InputField from '../../components/input-field/InputField';
 
 export default function Dashboard() {
   return (
@@ -57,20 +58,19 @@ export default function Dashboard() {
       </div>
 
       {/* Create Folder modals */}
-      <DialogForm
-        id="create-folder"
-        header="Create New Folder"
-        submitBtn={{ icon: <Add />, text: 'Create' }}
-      >
-        <label htmlFor="name">Folder Name</label>
-        <input
-          className={style.input}
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Folder name"
-          autoFocus
-        />
+      <DialogForm id="create-folder" header="Create New Folder">
+        <InputField label="Folder Name" id="name" name="name" placeholder="Folder name" autoFocus />
+
+        <div className="buttons">
+          <Action type="button" variant="secondary" command="close" commandFor="create-folder">
+            Cancel
+          </Action>
+
+          <Action variant="primary">
+            <LinkIcon />
+            Generate Link
+          </Action>
+        </div>
       </DialogForm>
     </>
   );

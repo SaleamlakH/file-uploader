@@ -24,26 +24,8 @@
   margin: 0.2em 0;
 }
 
-.btns {
-  display: flex;
+.form [class~='buttons'] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
-}
-
-.btns > button {
-  flex: 1;
-}
-
-.fields input {
-  padding: 0.8em;
-  margin: 0.5em 0;
-  font-size: 1rem;
-  border-radius: 10px;
-  border: 1px solid hsl(0 0 70);
-  display: block;
-  width: 100%;
-  color: inherit;
-}
-
-.fields input:focus {
-  outline-color: hsl(210 80 50);
 }

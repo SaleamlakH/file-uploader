@@ -1,17 +1,30 @@
 import DialogForm from '../dialog-form/DialogForm';
-import { Share } from '../Icons';
+import Action from '../Action/Action';
+import { Link as LinkIcon } from '../Icons';
+import InputField from '../input-field/InputField';
 
 export default function ShareForm({ id }: { id: string }) {
   return (
-    <DialogForm id={id} header="Share Folder" submitBtn={{ icon: <Share />, text: 'Share' }}>
-      <label htmlFor="expires">Expiration Date</label>
-      <input
+    <DialogForm id={id} header="Share Folder">
+      <InputField
         type="datetime-local"
         name="expiresAt"
         id="expires"
+        label="Expiration Date"
         autoFocus
+        required
       />
-      <span style={{ color: 'hsl(0 0 30)' }}>The share will expire on this date.</span>
+
+      <div className="buttons">
+        <Action type="button" variant="secondary" command="close" commandFor={id}>
+          Cancel
+        </Action>
+
+        <Action variant="primary">
+          <LinkIcon />
+          Generate Link
+        </Action>
+      </div>
     </DialogForm>
   );
 }
