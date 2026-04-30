@@ -1,0 +1,54 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  background-color: hsl(210 100 90);
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: hsl(220 30 20);
+  margin: 0.2em 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: hsl(220 10 40);
+  margin: 0;
+}
+
+.container {
+  width: min(100%, 400px);
+  background: hsl(0 0 100);
+  padding: 2em;
+  border-radius: 1em;
+  box-shadow: 0 10px 25px hsl(220 20 20 / 0.15);
+  text-align: left;
+}
+
+.form {
+  display: contents;
+}
+
+/* footer nav */
+.footer {
+  margin-top: 1em;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.link {
+  color: hsl(225 70 55);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

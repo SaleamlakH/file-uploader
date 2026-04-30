@@ -2,6 +2,8 @@ import type { RouteObject } from 'react-router';
 import App from './App';
 import Dashboard from './pages/dashboard/Dashboard';
 import FolderView from './pages/folder-view/FolderView';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 const routes: RouteObject[] = [
   {
@@ -23,9 +25,11 @@ const routes: RouteObject[] = [
   },
   {
     path: '/signup',
+    element: <Signup />,
   },
   {
     path: '/login',
+    element: <Login />,
   },
 ];
 
