@@ -1,9 +1,13 @@
 import apiClient from './client';
-import type { User } from './types/api';
+import type { Folder, User } from './types/api';
 
 export interface LoginFormFields {
   email: string;
   password: string;
+}
+
+export interface SignupFormFields extends LoginFormFields {
+  confirmPassword: string;
 }
 
 export const getUser = async () => {
@@ -24,4 +28,13 @@ export const logout = async () => {
   const result = await apiClient<{ message: string }>('/auth/logout');
 
   return result.message;
+};
+
+export const signup = async (data: SignupFormFields) => {
+  const result = await apiClient<User & { folders: Folder[] }>('/auth/signup', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+
+  return result.data;
 };

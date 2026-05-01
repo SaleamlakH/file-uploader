@@ -1,9 +1,22 @@
 import AuthForm from '../layout/auth-page/AuthPage';
 import InputField from '../components/input-field/InputField';
+import { useAuthForm } from '../hooks/useAuth';
+import { signup, type SignupFormFields } from '../api/auth';
 
 export default function Signup() {
+  const { formData, errors, handleChange, handleSubmit } = useAuthForm<SignupFormFields>(signup, {
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
   return (
-    <AuthForm variant="signup" title="Get Started" subtitle="Create your free account">
+    <AuthForm
+      onSubmit={handleSubmit}
+      variant="signup"
+      title="Get Started"
+      subtitle="Create your free account"
+    >
       {/* Email */}
       <InputField
         type="email"
@@ -11,12 +24,25 @@ export default function Signup() {
         id="email"
         name="email"
         placeholder="you@example.com"
+        value={formData.email}
+        onChange={handleChange}
+        error={errors?.errors?.email?.message}
         required
         autoFocus
       />
 
       {/* Password */}
-      <InputField type="password" id="password" name="password" label="Password" min={6} required />
+      <InputField
+        type="password"
+        id="password"
+        name="password"
+        label="Password"
+        min={6}
+        value={formData.password}
+        onChange={handleChange}
+        error={errors?.errors?.password?.message}
+        required
+      />
 
       {/* Confirm password */}
       <InputField
@@ -24,6 +50,9 @@ export default function Signup() {
         id="confirmPassword"
         name="confirmPassword"
         label="Confirm Password"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        error={errors?.errors?.confirmPassword?.message}
         required
       />
     </AuthForm>
