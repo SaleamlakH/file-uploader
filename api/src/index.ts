@@ -8,8 +8,17 @@ import authRouter from './modules/auth/auth.route';
 import foldersRouter from './modules/folders/folders.route';
 import sharesRouter from './modules/shares/shares.route';
 import { sendError } from './errors/sendError';
+import cors from 'cors';
 
 const app = express();
+
+// access-control
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 
 // parse form data
 app.use(express.json());
