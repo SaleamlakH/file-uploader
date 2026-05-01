@@ -5,6 +5,8 @@ import FolderView from './pages/folder-view/FolderView';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { rootLoader } from './layout/root-layout/rootLoader';
+import { authLoader } from './layout/require-auth/auth-loader';
+import RequireAuth from './layout/require-auth/RequireAuth';
 
 const routes: RouteObject[] = [
   {
@@ -13,12 +15,18 @@ const routes: RouteObject[] = [
     loader: rootLoader,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: '/folders/:folderId',
-        element: <FolderView />,
+        element: <RequireAuth />,
+        loader: authLoader,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: 'folders/:folderId',
+            element: <FolderView />,
+          },
+        ],
       },
       {
         path: '/shares/:token',
