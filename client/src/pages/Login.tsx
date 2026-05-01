@@ -1,47 +1,17 @@
 import AuthForm from '../layout/auth-page/AuthPage';
 import InputField from '../components/input-field/InputField';
-import { useState } from 'react';
-import { login } from '../api/auth';
-import { ApiError } from '../api/error';
-import type { ApiErrorResponse } from '../api/types/api';
-import { useNavigate } from 'react-router';
+import { login, type LoginFormFields } from '../api/auth';
+import { useAuthForm } from '../hooks/useAuth';
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState<{ email: string; password: string }>({
+  const { formData, errors, handleChange, handleSubmit } = useAuthForm<LoginFormFields>(login, {
     email: '',
     password: '',
   });
 
-  const [errors, setErrors] = useState<ApiErrorResponse['error'] | null>(null);
-
-  const handleOnchange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setFormData((prev) => ({ ...prev, [event.target.name]: event.target.value }));
-  };
-
-  // send request to api
-  const sendData: React.SubmitEventHandler = async (event) => {
-    event.preventDefault();
-
-    try {
-      await login(formData);
-
-      // redirect to home
-      navigate('/');
-    } catch (err) {
-      if (err instanceof ApiError) {
-        if (err.status === 400) {
-          return setErrors(err.errors);
-        }
-      }
-
-      throw err;
-    }
-  };
-
   return (
     <AuthForm
-      onSubmit={sendData}
+      onSubmit={handleSubmit}
       variant="login"
       title="Welcome Back"
       subtitle="Login to access you files"
@@ -56,7 +26,7 @@ export default function Login() {
         name="email"
         placeholder="you@example.com"
         value={formData.email}
-        onChange={handleOnchange}
+        onChange={handleChange}
         error={errors?.errors?.email?.message}
         required
         autoFocus
@@ -70,7 +40,7 @@ export default function Login() {
         label="Password"
         minLength={6}
         value={formData.password}
-        onChange={handleOnchange}
+        onChange={handleChange}
         error={errors?.errors?.password?.message}
         required
       />
