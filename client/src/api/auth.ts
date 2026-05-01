@@ -14,3 +14,9 @@ export const login = async (data: { email: string; password: string }) => {
 
   return result.data;
 };
+
+export const logout = async () => {
+  const result = await apiClient<{ message: string }>('/auth/logout');
+
+  return result.message;
+};

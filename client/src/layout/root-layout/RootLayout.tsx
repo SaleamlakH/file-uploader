@@ -1,12 +1,20 @@
 import style from './root-layout.module.css';
-import { Link, Outlet, useLoaderData } from 'react-router';
+import { Link, Outlet, useLoaderData, useNavigate } from 'react-router';
 import { Logout as LogoutIcon, User as UserIcon } from '../../components/Icons';
 import Action from '../../components/Action/Action';
 import logoSvg from '../../assets/logo.svg';
 import type { User } from '../../api/types/api';
+import { logout } from '../../api/auth';
 
 export default function RootLayout() {
+  const navigate = useNavigate();
   const user = useLoaderData<User | null>();
+
+  const handleLogout = async () => {
+    await logout();
+
+    navigate('/');
+  };
 
   return (
     <>
@@ -26,7 +34,7 @@ export default function RootLayout() {
             )}
             <div className={style.links}>
               {user ? (
-                <Action as="link" to="/logout" className={style.logout}>
+                <Action as="button" onClick={handleLogout} className={style.logout}>
                   <LogoutIcon />
                   Logout
                 </Action>
