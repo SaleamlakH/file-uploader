@@ -4,11 +4,13 @@ import Dashboard from './pages/dashboard/Dashboard';
 import FolderView from './pages/folder-view/FolderView';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import { rootLoader } from './layout/root-layout/rootLoader';
 
 const routes: RouteObject[] = [
   {
     path: '/',
     element: <RootLayout />,
+    loader: rootLoader,
     children: [
       {
         index: true,
