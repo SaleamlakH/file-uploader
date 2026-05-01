@@ -8,9 +8,16 @@ type AuthPageProp = {
   title: string;
   subtitle: string;
   children: ReactNode;
+  onSubmit: React.SubmitEventHandler;
 };
 
-export default function AuthForm({ variant = 'login', title, subtitle, children }: AuthPageProp) {
+export default function AuthForm({
+  onSubmit,
+  variant = 'login',
+  title,
+  subtitle,
+  children,
+}: AuthPageProp) {
   const isSignup = variant === 'signup';
 
   return (
@@ -24,10 +31,10 @@ export default function AuthForm({ variant = 'login', title, subtitle, children 
       </header>
 
       <div className={style.container}>
-        <form className={style.form}>
+        <form onSubmit={onSubmit} className={style.form}>
           {children}
 
-          <Action type="submit" variant="primary" style={{ width: '100%' }}>
+          <Action as="button" type="submit" variant="primary" style={{ width: '100%' }}>
             {isSignup ? 'Create Account' : 'Sign In'}
           </Action>
         </form>

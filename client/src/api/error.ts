@@ -7,6 +7,6 @@ export class ApiError extends Error {
   constructor(status: number, message: string, errors: ApiErrorResponse) {
     super(message);
     this.status = status;
-    this.errors = errors;
+    this.errors = errors.error;
   }
 }

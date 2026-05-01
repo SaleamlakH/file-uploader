@@ -1,9 +1,13 @@
 import { ApiError } from './error';
 import type { ApiErrorResponse, ApiSuccessResponse } from './types/api';
 
-const apiClient = async <T>(path: string, options: RequestInit = {}): Promise<T> => {
+const apiClient = async <T>(
+  path: string,
+  options: RequestInit = {},
+): Promise<ApiSuccessResponse<T>> => {
   const response = await fetch(`${import.meta.env.VITE_API_URL}${path}`, {
     ...options,
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -17,7 +21,7 @@ const apiClient = async <T>(path: string, options: RequestInit = {}): Promise<T>
     throw new ApiError(response.status, errorData.error.message, errorData);
   }
 
-  return (result as ApiSuccessResponse<T>).data;
+  return result;
 };
 
 export default apiClient;
