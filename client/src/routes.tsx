@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router';
-import App from './App';
+import RootLayout from './layout/root-layout/RootLayout';
 import Dashboard from './pages/dashboard/Dashboard';
 import FolderView from './pages/folder-view/FolderView';
 import Login from './pages/Login';
@@ -8,7 +8,7 @@ import Signup from './pages/Signup';
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <App />,
+    element: <RootLayout />,
     children: [
       {
         index: true,
