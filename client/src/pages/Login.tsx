@@ -1,12 +1,22 @@
 import AuthForm from '../layout/auth-page/AuthPage';
 import InputField from '../components/input-field/InputField';
 import { login, type LoginFormFields } from '../api/auth';
-import { useAuthForm } from '../hooks/useAuth';
+import { useForm } from '../hooks/useForm';
+import { useNavigate } from 'react-router';
+import type { User } from '../api/types/api';
 
 export default function Login() {
-  const { formData, errors, handleChange, handleSubmit } = useAuthForm<LoginFormFields>(login, {
-    email: '',
-    password: '',
+  const navigate = useNavigate();
+  const { formData, errors, handleChange, handleSubmit } = useForm<
+    LoginFormFields,
+    User | undefined
+  >({
+    submitFn: login,
+    initialData: {
+      email: '',
+      password: '',
+    },
+    onSuccess: () => navigate('/'),
   });
 
   return (

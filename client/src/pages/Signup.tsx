@@ -1,13 +1,24 @@
 import AuthForm from '../layout/auth-page/AuthPage';
 import InputField from '../components/input-field/InputField';
-import { useAuthForm } from '../hooks/useAuth';
+import { useForm } from '../hooks/useForm';
 import { signup, type SignupFormFields } from '../api/auth';
+import { useNavigate } from 'react-router';
+import type { User } from '../api/types/api';
 
 export default function Signup() {
-  const { formData, errors, handleChange, handleSubmit } = useAuthForm<SignupFormFields>(signup, {
-    email: '',
-    password: '',
-    confirmPassword: '',
+  const navigate = useNavigate();
+
+  const { formData, errors, handleChange, handleSubmit } = useForm<
+    SignupFormFields,
+    User | undefined
+  >({
+    submitFn: signup,
+    onSuccess: () => navigate('/'),
+    initialData: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   return (
