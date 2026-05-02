@@ -3,12 +3,9 @@ import { Add } from '../../components/Icons';
 import style from './dashboard.module.css';
 import DialogForm from '../../components/dialog-form/DialogForm';
 import FolderCard from '../../components/folder-card/FolderCard';
-import ShareForm from '../../components/share-form/ShareForm';
-import EditForm from '../../components/edit-form/EditForm';
-import DeleteFolder from '../../components/folder-delete/FolderDelete';
 import FolderActionMenu from '../../components/menu/FolderActionMenu';
 import InputField from '../../components/input-field/InputField';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Folder } from '../../api/types/api';
 import { createFolder, getAllFolder } from '../../api/folder';
 import { useForm } from '../../hooks/useForm';
@@ -72,27 +69,16 @@ export default function Dashboard() {
           <div>Loading Folders...</div>
         ) : folders.length ? (
           folders.map(({ id, name, createdAt }) => (
-            <Fragment key={id}>
-              <FolderCard folder={{ id, name, createdAt }} key={id}>
-                <FolderActionMenu
-                  className={style.cardMenu}
-                  dialogIds={{
-                    share: `share-folder-${id}`,
-                    edit: `edit-folder-${id}`,
-                    delete: `delete-folder-${id}`,
-                  }}
-                />
-              </FolderCard>
-
-              {/* share-folder form */}
-              <ShareForm id={`share-folder-${id}`} />
-
-              {/* Edit folder form */}
-              <EditForm id={`edit-folder-${id}`} />
-
-              {/* Delete folder */}
-              <DeleteFolder id={`delete-folder-${id}`} />
-            </Fragment>
+            <FolderCard setFolders={setFolders} key={id} folder={{ id, name, createdAt }}>
+              <FolderActionMenu
+                className={style.cardMenu}
+                dialogIds={{
+                  share: `share-folder-${id}`,
+                  edit: `edit-folder-${id}`,
+                  delete: `delete-folder-${id}`,
+                }}
+              />
+            </FolderCard>
           ))
         ) : (
           <div>No Folder Created</div>
