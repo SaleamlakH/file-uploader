@@ -45,5 +45,5 @@ export const useForm = <TData, TResult = unknown>({
     }
   };
 
-  return { formData, errors, loading, handleChange, handleSubmit };
+  return { formData, setFormData, errors, loading, handleChange, handleSubmit };
 };
