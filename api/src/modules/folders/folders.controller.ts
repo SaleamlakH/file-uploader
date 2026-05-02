@@ -29,7 +29,7 @@ export const getAllFolders = async (req: Request, res: Response, next: NextFunct
 };
 
 export const getFolderFiles = async (req: Request, res: Response, next: NextFunction) => {
-  res.json({ data: req.folder.files });
+  res.json({ data: req.folder });
 };
 
 export const changeFolderName = async (req: Request, res: Response, next: NextFunction) => {
