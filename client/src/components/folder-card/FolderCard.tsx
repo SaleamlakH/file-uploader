@@ -1,23 +1,32 @@
 import style from './folder-card.module.css';
 import { Link } from 'react-router';
-import { Clock, FileText, Folder } from '../Icons';
+import { Clock, FileText, Folder as FolderIcon } from '../Icons';
 import FolderActionMenu from '../menu/FolderActionMenu';
 import type { ReactElement } from 'react';
+import type { Folder } from '../../api/types/api';
 
 type FolderCardProps = {
   children: ReactElement<typeof FolderActionMenu>;
+  folder: Folder;
 };
 
-export default function FolderCard({ children }: FolderCardProps) {
+export default function FolderCard({ folder, children }: FolderCardProps) {
+  const createdDate = new Date(folder.createdAt);
+  const formattedDate = createdDate.toLocaleDateString('en-us', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
   return (
     <div className={style.card}>
       <div>
-        <Link to="/folders/folderId" className={style.folderName}>
+        <Link to={`/folders/${folder.id}`} className={style.folderName}>
           <div className={style.folderIcon}>
-            <Folder />
+            <FolderIcon />
           </div>
           <div className={style.cardHeader}>
-            <h3>Work Documents Documents Documents</h3>
+            <h3>{folder.name}</h3>
             <div className={style.fileCount}>
               <FileText />
               <span>5 files</span>
@@ -30,7 +39,7 @@ export default function FolderCard({ children }: FolderCardProps) {
 
       <div className={style.createdAt}>
         <Clock />
-        <span>Created Apr 28, 2024 </span>
+        <span>Created {formattedDate} </span>
       </div>
     </div>
   );

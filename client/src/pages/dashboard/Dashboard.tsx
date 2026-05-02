@@ -8,8 +8,22 @@ import EditForm from '../../components/edit-form/EditForm';
 import DeleteFolder from '../../components/folder-delete/FolderDelete';
 import FolderActionMenu from '../../components/menu/FolderActionMenu';
 import InputField from '../../components/input-field/InputField';
+import { useEffect, useState } from 'react';
+import type { Folder } from '../../api/types/api';
+import { getAllFolder } from '../../api/folder';
 
 export default function Dashboard() {
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // load the folders
+  useEffect(() => {
+    getAllFolder().then((folders) => {
+      setFolders(folders as Folder[]);
+      setLoading(false);
+    });
+  });
+
   return (
     <>
       <header className={style.header}>
@@ -32,29 +46,35 @@ export default function Dashboard() {
 
       {/* folder cards */}
       <div className={style.container}>
-        {[1, 2, 3].map((i) => (
-          <>
-            <FolderCard key={i}>
-              <FolderActionMenu
-                className={style.cardMenu}
-                dialogIds={{
-                  share: `share-folder-${i}`,
-                  edit: `edit-folder-${i}`,
-                  delete: `delete-folder-${i}`,
-                }}
-              />
-            </FolderCard>
+        {loading ? (
+          <div>Loading Folders...</div>
+        ) : folders.length ? (
+          folders.map(({ id, name, createdAt }) => (
+            <>
+              <FolderCard folder={{ id, name, createdAt }} key={id}>
+                <FolderActionMenu
+                  className={style.cardMenu}
+                  dialogIds={{
+                    share: `share-folder-${id}`,
+                    edit: `edit-folder-${id}`,
+                    delete: `delete-folder-${id}`,
+                  }}
+                />
+              </FolderCard>
 
-            {/* share-folder form */}
-            <ShareForm id={`share-folder-${i}`} />
+              {/* share-folder form */}
+              <ShareForm id={`share-folder-${id}`} />
 
-            {/* Edit folder form */}
-            <EditForm id={`edit-folder-${i}`} />
+              {/* Edit folder form */}
+              <EditForm id={`edit-folder-${id}`} />
 
-            {/* Delete folder */}
-            <DeleteFolder id={`delete-folder-${i}`} />
-          </>
-        ))}
+              {/* Delete folder */}
+              <DeleteFolder id={`delete-folder-${id}`} />
+            </>
+          ))
+        ) : (
+          <div>No Folder Created</div>
+        )}
       </div>
 
       {/* Create Folder modals */}
