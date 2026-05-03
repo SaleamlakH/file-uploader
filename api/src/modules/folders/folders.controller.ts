@@ -103,6 +103,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
     // should be updated when cloud storage is ready
     const filePath = path.join(process.cwd(), file.url);
     res.setHeader('Content-Type', file.type);
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
     res.download(filePath, file.filename, (error) => {
       next(error);
     });
