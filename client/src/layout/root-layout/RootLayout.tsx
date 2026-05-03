@@ -20,7 +20,7 @@ export default function RootLayout() {
     <>
       <header className={style.header}>
         <nav className={style.navbar}>
-          <Link to="/login" className={style.brand}>
+          <Link to="/" className={style.brand}>
             <img src={logoSvg} alt="logo" />
             <span>Cloudstore</span>
           </Link>

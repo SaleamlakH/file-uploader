@@ -3,11 +3,22 @@ import DialogForm from '../dialog-form/DialogForm';
 import { Upload } from '../Icons';
 import style from './upload-file-form.module.css';
 import Action from '../Action/Action';
+import type { File as FileInfo, Folder } from '../../api/types/api';
+import { uploadFiles } from '../../api/folder';
+import { ApiError } from '../../api/error';
 
-export default function UploadFileForm() {
+type FolderWithFiles = (Folder & { files: FileInfo[] }) | undefined;
+type UploadFileProps = {
+  folderId: string;
+  setFolder: (value: FolderWithFiles | ((prevState: FolderWithFiles) => FolderWithFiles)) => void;
+};
+
+export default function UploadFileForm({ folderId, setFolder }: UploadFileProps) {
   const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const handleFiles = (fileList: FileList | null) => {
     if (!fileList) return;
@@ -24,8 +35,30 @@ export default function UploadFileForm() {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleSubmit: React.SubmitEventHandler = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    try {
+      const folderFiles = await uploadFiles(folderId, files);
+
+      dialogRef.current?.close();
+      setFolder((prev) => prev && { ...prev, files: folderFiles as FileInfo[] });
+    } catch (err) {
+      if (err instanceof ApiError) {
+        if (err.status === 400) {
+          return;
+        }
+      }
+
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <DialogForm id="upload-file" header="Upload Files">
+    <DialogForm ref={dialogRef} id="upload-file" header="Upload Files" onSubmit={handleSubmit}>
       <div
         className={`${style.dropZone} ${isDragging ? style.dropZoneActive : ''}`}
         onDragOver={(e) => {
@@ -51,6 +84,7 @@ export default function UploadFileForm() {
           ref={fileInputRef}
           id="files"
           type="file"
+          name="files"
           multiple
           className={style.hiddenInput}
           onChange={(e) => handleFiles(e.target.files)}
@@ -78,9 +112,9 @@ export default function UploadFileForm() {
         <Action type="button" command="close" commandFor="upload-file" variant="secondary">
           Cancel
         </Action>
-        <Action variant="primary">
+        <Action variant="primary" disabled={loading}>
           <Upload />
-          Upload
+          {loading ? 'Uploading' : 'Upload'}
         </Action>
       </div>
     </DialogForm>

@@ -6,92 +6,151 @@ import EditForm from '../../components/edit-form/EditForm';
 import DeleteFolder from '../../components/folder-delete/FolderDelete';
 import FolderActionMenu from '../../components/menu/FolderActionMenu';
 import UploadFileForm from '../../components/upload-file-form/UploadFileForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { File, Folder } from '../../api/types/api';
+import { downloadFile, getFolderFiles } from '../../api/folder';
+import { useNavigate, useParams } from 'react-router';
+import { ApiError } from '../../api/error';
 
 export default function FolderView() {
+  const { folderId } = useParams();
+  const navigate = useNavigate();
+  const [folder, setFolder] = useState<(Folder & { files: File[] }) | undefined>();
+  const [loading, setLoading] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const formatSize = (size: number) => {
     if (typeof size !== 'number' || isNaN(size)) return '-';
     return (size / 1024 / 1024).toFixed(2) + ' MB';
   };
 
+  const setName = (value: string | ((prevState: string) => string)) => {
+    if (typeof value === 'string') {
+      return setFolder((prev) => prev && { ...prev, name: value });
+    }
+
+    setFolder((prev) => prev && { ...prev, name: value(folder?.name as string) });
+  };
+
+  useEffect(() => {
+    const fetchFolder = async () => {
+      try {
+        const folder = await getFolderFiles(folderId as string);
+        setFolder(folder);
+      } catch (error) {
+        if (error instanceof ApiError) {
+          alert(error.message);
+        }
+
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFolder();
+  }, [folderId]);
+
   return (
     <>
-      <header className={style.header}>
-        <div className={style.folderName}>
-          <h1>Work Documents</h1>
-          <div>5 files</div>
+      {loading ? (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          Loading Folder
         </div>
+      ) : folder ? (
+        <>
+          <header className={style.header}>
+            <div className={style.folderName}>
+              <h1>{folder.name}</h1>
+              <div>5 files</div>
+            </div>
 
-        <div className={style.actions}>
-          {/* upload file */}
-          <Action
-            as="button"
-            command="show-modal"
-            commandFor="upload-file"
-            onClick={() => console.log('dialog')}
-            variant="primary"
-          >
-            <Upload />
-            Upload
-          </Action>
-
-          <FolderActionMenu
-            className={style.menu}
-            dialogIds={{ edit: 'edit-folder', share: 'share-folder', delete: 'delete-folder' }}
-          />
-        </div>
-      </header>
-
-      {/* File table */}
-      <div className={style.wrapper}>
-        <table className={style.table}>
-          <thead>
-            <tr className={style.headRow}>
-              <th className={style.th}>Name</th>
-              <th className={style.th}>Size</th>
-              <th className={style.th}>Uploaded</th>
-              <th className={style.th}></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {[{ id: 1, name: 'File name', size: 1125434, uploaded: '2026-4-5' }].map((file, i) => (
-              <tr
-                key={file.id ?? file?.name ?? i}
-                className={`${style.row} ${hoveredIndex === i ? style.rowHover : ''}`}
-                onMouseLeave={() => setHoveredIndex(null)}
+            <div className={style.actions}>
+              {/* upload file */}
+              <Action
+                as="button"
+                command="show-modal"
+                commandFor="upload-file"
+                onClick={() => console.log('dialog')}
+                variant="primary"
               >
-                <td className={style.tdName}>
-                  <span className={style.nameText}>{file.name}</span>
-                </td>
+                <Upload />
+                Upload
+              </Action>
 
-                <td className={style.td}>{formatSize(file.size)}</td>
+              <FolderActionMenu
+                className={style.menu}
+                dialogIds={{
+                  edit: `edit-folder-${folder.id}`,
+                  share: `share-folder-${folder.id}`,
+                  delete: `delete-folder-${folder.id}`,
+                }}
+              />
+            </div>
+          </header>
 
-                <td className={style.td}>{file.uploaded}</td>
+          {/* File table */}
+          {folder.files.length ? (
+            <div className={style.wrapper}>
+              <table className={style.table}>
+                <thead>
+                  <tr className={style.headRow}>
+                    <th className={style.th}>Name</th>
+                    <th className={style.th}>Size</th>
+                    <th className={style.th}>Uploaded</th>
+                    <th className={style.th}></th>
+                  </tr>
+                </thead>
 
-                <td className={style.actionsCell}>
-                  <Action as="link" to="#" className={style.downloadBtn}>
-                    <Download />
-                  </Action>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                <tbody>
+                  {folder.files.map((file, i) => (
+                    <tr
+                      key={file.id ?? file.filename ?? i}
+                      className={`${style.row} ${hoveredIndex === i ? style.rowHover : ''}`}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <td className={style.tdName}>
+                        <span className={style.nameText}>{file.filename}</span>
+                      </td>
 
-      {/* upload files */}
-      <UploadFileForm />
+                      <td className={style.td}>{formatSize(file.size)}</td>
 
-      {/* share-folder form */}
-      <ShareForm id="share-folder" />
+                      <td className={style.td}>{`${file.uploadedAt}`}</td>
 
-      {/* Edit folder form */}
-      <EditForm id="edit-folder" />
+                      <td className={style.actionsCell}>
+                        <Action
+                          as="button"
+                          onClick={() => downloadFile(folder.id, file.id)}
+                          className={style.downloadBtn}
+                        >
+                          <Download />
+                        </Action>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div>No file Uploaded</div>
+          )}
 
-      {/* Delete folder */}
-      <DeleteFolder id="delete-folder" />
+          {/* upload files */}
+          <UploadFileForm folderId={folder.id} setFolder={setFolder} />
+
+          {/* share-folder form */}
+          <ShareForm folderId={folder.id} />
+
+          {/* Edit folder form */}
+          <EditForm setName={setName} name={folder.name} folderId={folder.id} />
+
+          {/* Delete folder */}
+          <DeleteFolder onDelete={() => navigate('/')} folderId={folder.id} />
+        </>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          Folder Not Found
+        </div>
+      )}
     </>
   );
 }

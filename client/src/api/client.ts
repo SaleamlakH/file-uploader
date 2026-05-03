@@ -3,25 +3,35 @@ import type { ApiErrorResponse, ApiSuccessResponse } from './types/api';
 
 const apiClient = async <T>(
   path: string,
-  options: RequestInit = {},
+  options: RequestInit & { responseType?: 'blob' | 'json' } = {},
 ): Promise<ApiSuccessResponse<T>> => {
+  const { responseType = 'json', ...fetchOptions } = options;
+
   const response = await fetch(`${import.meta.env.VITE_API_URL}${path}`, {
-    ...options,
+    ...fetchOptions,
     credentials: 'include',
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
+      ...(!(fetchOptions.body instanceof FormData) && { 'Content-Type': 'application/json' }),
+      ...fetchOptions.headers,
     },
   });
 
-  const result = await response.json();
-
   if (!response.ok) {
-    const errorData = result as ApiErrorResponse;
+    const errorData: ApiErrorResponse = await response.json();
     throw new ApiError(response.status, errorData.error.message, errorData);
   }
 
-  return result;
+  if (responseType === 'blob') {
+    const blob = await response.blob();
+    return {
+      data: {
+        blob,
+        headers: response.headers,
+      } as T,
+    };
+  }
+
+  return await response.json();
 };
 
 export default apiClient;
