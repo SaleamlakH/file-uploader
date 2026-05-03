@@ -52,7 +52,14 @@ export default function FolderView() {
 
   const handleDelete = async (folderId: string, fileId: string) => {
     await deleteFile(folderId, fileId);
-    setFolder((prev) => prev && { ...prev, files: prev.files.filter(({ id }) => id !== fileId) });
+    setFolder(
+      (prev) =>
+        prev && {
+          ...prev,
+          files: prev.files.filter(({ id }) => id !== fileId),
+          _count: { files: --prev._count.files },
+        },
+    );
   };
 
   return (
@@ -66,7 +73,7 @@ export default function FolderView() {
           <header className={style.header}>
             <div className={style.folderName}>
               <h1>{folder.name}</h1>
-              <div>5 files</div>
+              <div>{folder._count.files} files</div>
             </div>
 
             <div className={style.actions}>

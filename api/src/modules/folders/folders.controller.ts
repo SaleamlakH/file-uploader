@@ -117,7 +117,6 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
   const { fileId } = req.params;
 
   try {
-    console.log(req.folder.id);
     const file = await services.getFile({ fileId: fileId as string, folderId: req.folder.id });
 
     if (!file) return sendError(res, 404, 'File not found');

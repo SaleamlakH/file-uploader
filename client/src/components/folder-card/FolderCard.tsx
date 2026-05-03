@@ -38,7 +38,7 @@ export default function FolderCard({ folder, children, setFolders }: FolderCardP
               <h3>{name}</h3>
               <div className={style.fileCount}>
                 <FileText />
-                <span>5 files</span>
+                <span>{`${folder._count.files}`} files</span>
               </div>
             </div>
           </Link>

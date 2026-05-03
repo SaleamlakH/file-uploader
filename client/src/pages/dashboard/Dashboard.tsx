@@ -68,14 +68,14 @@ export default function Dashboard() {
         {loading ? (
           <div>Loading Folders...</div>
         ) : folders.length ? (
-          folders.map(({ id, name, createdAt }) => (
-            <FolderCard setFolders={setFolders} key={id} folder={{ id, name, createdAt }}>
+          folders.map((folder) => (
+            <FolderCard setFolders={setFolders} key={folder.id} folder={folder}>
               <FolderActionMenu
                 className={style.cardMenu}
                 dialogIds={{
-                  share: `share-folder-${id}`,
-                  edit: `edit-folder-${id}`,
-                  delete: `delete-folder-${id}`,
+                  share: `share-folder-${folder.id}`,
+                  edit: `edit-folder-${folder.id}`,
+                  delete: `delete-folder-${folder.id}`,
                 }}
               />
             </FolderCard>

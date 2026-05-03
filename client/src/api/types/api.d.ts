@@ -20,6 +20,9 @@ export interface Folder {
   id: string;
   name: string;
   createdAt: string;
+  _count: {
+    files: number;
+  };
 }
 
 export interface File {

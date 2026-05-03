@@ -20,6 +20,9 @@ export const createFolder = ({ ownerId, name }: FolderCreateNew) => {
 export const getUserFolders = (ownerId: Folders['ownerId']) => {
   return prisma.folders.findMany({
     where: { ownerId },
+    include: {
+      _count: { select: { files: true } },
+    },
     omit: { ownerId: true },
   });
 };
@@ -31,6 +34,7 @@ export const getFolderForOwner = ({ ownerId, folderId, includeFiles }: FolderGet
       files: includeFiles && {
         omit: { url: true },
       },
+      _count: { select: { files: true } },
     },
     omit: { ownerId: true },
   });
