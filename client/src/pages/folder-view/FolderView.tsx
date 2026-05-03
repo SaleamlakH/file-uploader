@@ -1,5 +1,5 @@
 import Action from '../../components/Action/Action';
-import { Download, Upload } from '../../components/Icons';
+import { Download, TrashBin, Upload } from '../../components/Icons';
 import style from './folder-view.module.css';
 import ShareForm from '../../components/share-form/ShareForm';
 import EditForm from '../../components/edit-form/EditForm';
@@ -8,7 +8,7 @@ import FolderActionMenu from '../../components/menu/FolderActionMenu';
 import UploadFileForm from '../../components/upload-file-form/UploadFileForm';
 import { useEffect, useState } from 'react';
 import type { File, Folder } from '../../api/types/api';
-import { downloadFile, getFolderFiles } from '../../api/folder';
+import { deleteFile, downloadFile, getFolderFiles } from '../../api/folder';
 import { useNavigate, useParams } from 'react-router';
 import { ApiError } from '../../api/error';
 
@@ -49,6 +49,11 @@ export default function FolderView() {
 
     fetchFolder();
   }, [folderId]);
+
+  const handleDelete = async (folderId: string, fileId: string) => {
+    await deleteFile(folderId, fileId);
+    setFolder((prev) => prev && { ...prev, files: prev.files.filter(({ id }) => id !== fileId) });
+  };
 
   return (
     <>
@@ -123,6 +128,14 @@ export default function FolderView() {
                           className={style.downloadBtn}
                         >
                           <Download />
+                        </Action>
+
+                        <Action
+                          as="button"
+                          onClick={() => handleDelete(folder.id, file.id)}
+                          className={style.downloadBtn}
+                        >
+                          <TrashBin />
                         </Action>
                       </td>
                     </tr>

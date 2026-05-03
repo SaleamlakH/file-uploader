@@ -32,4 +32,6 @@ foldersRouter.get('/:folderId/files', controllers.getFolderFiles);
 // file download route
 foldersRouter.get('/:folderId/files/:fileId', controllers.downloadFile);
 
+foldersRouter.delete('/:folderId/files/:fileId', controllers.deleteFile);
+
 export default foldersRouter;

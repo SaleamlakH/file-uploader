@@ -81,3 +81,11 @@ export const downloadFile = async (folderId: string, fileId: string) => {
 
   window.URL.revokeObjectURL(url);
 };
+
+export const deleteFile = async (folderId: string, fileId: string) => {
+  const result = await apiClient(`/folders/${folderId}/files/${fileId}`, {
+    method: 'DELETE',
+  });
+
+  return result.message;
+};

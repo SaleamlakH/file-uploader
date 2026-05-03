@@ -46,11 +46,7 @@ export const getFolderById = ({ folderId, includeId, includeFiles }: FolderGetBy
   });
 };
 
-export const updateFolderName = ({
-  ownerId,
-  id: folderId,
-  name: newFolderName,
-}: FolderUpdate) => {
+export const updateFolderName = ({ ownerId, id: folderId, name: newFolderName }: FolderUpdate) => {
   return prisma.folders.update({
     where: { id: folderId, ownerId },
     data: {
@@ -85,5 +81,11 @@ export const createFolderFiles = async (
 export const getFile = async ({ fileId, folderId }: FileGetParameters) => {
   return prisma.files.findUnique({
     where: { id: fileId, folderId },
+  });
+};
+
+export const deleteFile = async ({ fileId, folderId }: FileGetParameters) => {
+  return prisma.files.delete({
+    where: { id: fileId, folderId: folderId },
   });
 };

@@ -4,6 +4,7 @@ import type { AuthenticatedRequest } from '../../types/authenticated-request';
 import multer from 'multer';
 import path from 'node:path';
 import { sendError } from '../../errors/sendError';
+import fs from 'fs/promises';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;
@@ -107,6 +108,26 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
     res.download(filePath, file.filename, (error) => {
       next(error);
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteFile = async (req: Request, res: Response, next: NextFunction) => {
+  const { fileId } = req.params;
+
+  try {
+    console.log(req.folder.id);
+    const file = await services.getFile({ fileId: fileId as string, folderId: req.folder.id });
+
+    if (!file) return sendError(res, 404, 'File not found');
+
+    // unlink the file from file system
+    const filePath = path.join(process.cwd(), file.url);
+    fs.unlink(filePath);
+
+    await services.deleteFile({ fileId: fileId as string, folderId: req.folder.id });
+    res.json({ message: 'Folder deleted successfully' });
   } catch (error) {
     next(error);
   }
