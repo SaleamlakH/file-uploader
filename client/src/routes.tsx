@@ -30,6 +30,7 @@ const routes: RouteObject[] = [
       },
       {
         path: '/shares/:token',
+        element: <FolderView />
       },
     ],
   },

@@ -11,9 +11,10 @@ import type { File, Folder } from '../../api/types/api';
 import { deleteFile, downloadFile, getFolderFiles } from '../../api/folder';
 import { useNavigate, useParams } from 'react-router';
 import { ApiError } from '../../api/error';
+import { downloadSharedFolderFile, getSharedFolderWithFiles } from '../../api/share';
 
 export default function FolderView() {
-  const { folderId } = useParams();
+  const { folderId, token } = useParams();
   const navigate = useNavigate();
   const [folder, setFolder] = useState<(Folder & { files: File[] }) | undefined>();
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,10 @@ export default function FolderView() {
   useEffect(() => {
     const fetchFolder = async () => {
       try {
-        const folder = await getFolderFiles(folderId as string);
+        const folder = folderId
+          ? await getFolderFiles(folderId as string)
+          : await getSharedFolderWithFiles(token as string);
+
         setFolder(folder);
       } catch (error) {
         if (error instanceof ApiError) {
@@ -48,7 +52,7 @@ export default function FolderView() {
     };
 
     fetchFolder();
-  }, [folderId]);
+  }, [folderId, token]);
 
   const handleDelete = async (folderId: string, fileId: string) => {
     await deleteFile(folderId, fileId);
@@ -76,28 +80,24 @@ export default function FolderView() {
               <div>{folder._count.files} files</div>
             </div>
 
-            <div className={style.actions}>
-              {/* upload file */}
-              <Action
-                as="button"
-                command="show-modal"
-                commandFor="upload-file"
-                onClick={() => console.log('dialog')}
-                variant="primary"
-              >
-                <Upload />
-                Upload
-              </Action>
+            {folderId && (
+              <div className={style.actions}>
+                {/* upload file */}
+                <Action as="button" command="show-modal" commandFor="upload-file" variant="primary">
+                  <Upload />
+                  Upload
+                </Action>
 
-              <FolderActionMenu
-                className={style.menu}
-                dialogIds={{
-                  edit: `edit-folder-${folder.id}`,
-                  share: `share-folder-${folder.id}`,
-                  delete: `delete-folder-${folder.id}`,
-                }}
-              />
-            </div>
+                <FolderActionMenu
+                  className={style.menu}
+                  dialogIds={{
+                    edit: `edit-folder-${folder.id}`,
+                    share: `share-folder-${folder.id}`,
+                    delete: `delete-folder-${folder.id}`,
+                  }}
+                />
+              </div>
+            )}
           </header>
 
           {/* File table */}
@@ -131,19 +131,25 @@ export default function FolderView() {
                       <td className={style.actionsCell}>
                         <Action
                           as="button"
-                          onClick={() => downloadFile(folder.id, file.id)}
+                          onClick={() =>
+                            folderId
+                              ? downloadFile(folder.id as string, file.id)
+                              : downloadSharedFolderFile(token as string, file.id)
+                          }
                           className={style.downloadBtn}
                         >
                           <Download />
                         </Action>
 
-                        <Action
-                          as="button"
-                          onClick={() => handleDelete(folder.id, file.id)}
-                          className={style.downloadBtn}
-                        >
-                          <TrashBin />
-                        </Action>
+                        {folderId && (
+                          <Action
+                            as="button"
+                            onClick={() => handleDelete(folder.id as string, file.id)}
+                            className={style.downloadBtn}
+                          >
+                            <TrashBin />
+                          </Action>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -155,16 +161,20 @@ export default function FolderView() {
           )}
 
           {/* upload files */}
-          <UploadFileForm folderId={folder.id} setFolder={setFolder} />
+          {folderId && (
+            <>
+              <UploadFileForm folderId={folder.id as string} setFolder={setFolder} />
 
-          {/* share-folder form */}
-          <ShareForm folderId={folder.id} />
+              {/* share-folder form */}
+              <ShareForm folderId={folder.id as string} />
 
-          {/* Edit folder form */}
-          <EditForm setName={setName} name={folder.name} folderId={folder.id} />
+              {/* Edit folder form */}
+              <EditForm setName={setName} name={folder.name} folderId={folder.id as string} />
 
-          {/* Delete folder */}
-          <DeleteFolder onDelete={() => navigate('/')} folderId={folder.id} />
+              {/* Delete folder */}
+              <DeleteFolder onDelete={() => navigate('/')} folderId={folder.id as string} />
+            </>
+          )}
         </>
       ) : (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
