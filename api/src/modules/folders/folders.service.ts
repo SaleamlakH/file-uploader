@@ -45,6 +45,7 @@ export const getFolderById = ({ folderId, includeId, includeFiles }: FolderGetBy
     where: { id: folderId },
     include: {
       files: includeFiles && { omit: { url: true } },
+      _count: {select: {files: true}}
     },
     omit: { id: !includeId, ownerId: true },
   });

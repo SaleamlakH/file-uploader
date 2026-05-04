@@ -2,9 +2,8 @@ import type { NextFunction, Request, Response } from 'express';
 import * as services from './folders.service';
 import type { AuthenticatedRequest } from '../../types/authenticated-request';
 import multer from 'multer';
-import path from 'node:path';
 import { sendError } from '../../errors/sendError';
-import fs from 'fs/promises';
+import { supabase } from '../../lib/supabase';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;
@@ -63,7 +62,7 @@ export const deleteFolder = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const uploadFiles = [
-  multer({ dest: 'uploads/' }).array('files'),
+  multer({ storage: multer.memoryStorage() }).array('files'),
   async (req: Request, res: Response, next: NextFunction) => {
     const { folderId } = req.params;
     const authReq = req as AuthenticatedRequest;
@@ -71,21 +70,39 @@ export const uploadFiles = [
     const files = authReq.files as Express.Multer.File[];
     if (!files) return sendError(res, 404, 'No files uploaded');
 
-    // extract required properties
-    const filesData = files.map(({ originalname, mimetype, size, path }) => ({
-      size,
-      filename: originalname,
-      type: mimetype,
-      url: path,
-    }));
-
     try {
+      const uploadedFiles = [];
+      const errors = [];
+
+      for (const file of files) {
+        const filePath = `${authReq.user.id}/${file.originalname}`;
+
+        const { data, error } = await supabase.storage
+          .from('file_uploader_files')
+          .upload(filePath, file.buffer, {
+            contentType: file.mimetype,
+          });
+
+        if (error) {
+          errors.push({ error, fileData: { filename: file.originalname } });
+          continue;
+        }
+
+        uploadedFiles.push({
+          size: file.size,
+          filename: file.originalname,
+          type: file.mimetype,
+          url: data.path,
+        });
+      }
+
+      // save data to database
       const folderFiles = await services.createFolderFiles(
         { ownerId: authReq.user.id, id: String(folderId) },
-        filesData,
+        uploadedFiles,
       );
 
-      res.json({ data: folderFiles.files });
+      res.json({ data: folderFiles.files, error: errors });
     } catch (error) {
       next(error);
     }
@@ -97,17 +114,17 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
 
   try {
     const file = await services.getFile({ fileId: String(fileId), folderId: String(folderId) });
-
     if (!file) return sendError(res, 404, 'File not found');
 
-    // from local
-    // should be updated when cloud storage is ready
-    const filePath = path.join(process.cwd(), file.url);
+    const { data, error } = await supabase.storage.from('file_uploader_files').download(file.url);
+
+    if (error) return next(error);
+
+    const buffer = Buffer.from(await data.arrayBuffer());
+
     res.setHeader('Content-Type', file.type);
-    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
-    res.download(filePath, file.filename, (error) => {
-      next(error);
-    });
+    res.setHeader('Content-Disposition', `attachment; filename="${file.filename}"`);
+    res.send(buffer);
   } catch (error) {
     next(error);
   }
@@ -121,10 +138,10 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
 
     if (!file) return sendError(res, 404, 'File not found');
 
-    // unlink the file from file system
-    const filePath = path.join(process.cwd(), file.url);
-    fs.unlink(filePath);
+    // delete file
+    const { error } = await supabase.storage.from('file_uploader_files').remove([file.url]);
 
+    if (error) return next(error);
     await services.deleteFile({ fileId: fileId as string, folderId: req.folder.id });
     res.json({ message: 'Folder deleted successfully' });
   } catch (error) {

@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
 import { createShare, getShare } from './shares.service';
 import { getFile, getFolderById } from '../folders/folders.service';
-import path from 'node:path';
 import { sendError } from '../../errors/sendError';
+import { supabase } from '../../lib/supabase';
 
 export const generateShareLink = async (req: Request, res: Response, next: NextFunction) => {
   const { expiresAt } = req.body;
@@ -54,11 +54,15 @@ export const downloadSharedFolderFile = async (req: Request, res: Response, next
     const file = await getFile({ fileId: String(fileId), folderId: share.resourceId });
     if (!file) return sendError(res, 404, 'File not found');
 
-    const filePath = path.join(process.cwd(), file.url);
+    const { data, error } = await supabase.storage.from('file_uploader_files').download(file.url);
 
-    res.download(filePath, file.filename, (error) => {
-      next(error);
-    });
+    if (error) return next(error);
+
+    const buffer = Buffer.from(await data.arrayBuffer());
+
+    res.setHeader('Content-Type', file.type);
+    res.setHeader('Content-Disposition', `attachment; filename="${file.filename}"`);
+    res.send(buffer);
   } catch (error) {
     next(error);
   }
