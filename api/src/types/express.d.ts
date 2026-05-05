@@ -1,4 +1,4 @@
-import type { Files, Folders, Users } from '../../generated/prisma/client';
+import type { Files, Folders, Users } from '../../generated/prisma/client.js';
 
 declare global {
   namespace Express {

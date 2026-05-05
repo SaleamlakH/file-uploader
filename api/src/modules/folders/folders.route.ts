@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as controllers from './folders.controller';
-import { requireAuth } from '../../middlewares/requireAuth';
-import { validateFolderName } from './folders.validator';
-import { loadOwnedFolderWithFiles } from './folders.middleware';
+import * as controllers from './folders.controller.js';
+import { requireAuth } from '../../middlewares/requireAuth.js';
+import { validateFolderName } from './folders.validator.js';
+import { loadOwnedFolderWithFiles } from './folders.middleware.js';
 
 const foldersRouter = Router();
 

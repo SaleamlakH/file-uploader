@@ -2,12 +2,12 @@ import 'dotenv/config';
 import express, { type NextFunction, type Request, type Response } from 'express';
 import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { prisma } from './lib/prisma';
+import { prisma } from './lib/prisma.js';
 import passport from 'passport';
-import authRouter from './modules/auth/auth.route';
-import foldersRouter from './modules/folders/folders.route';
-import sharesRouter from './modules/shares/shares.route';
-import { sendError } from './errors/sendError';
+import authRouter from './modules/auth/auth.route.js';
+import foldersRouter from './modules/folders/folders.route.js';
+import sharesRouter from './modules/shares/shares.route.js';
+import { sendError } from './errors/sendError.js';
 import cors from 'cors';
 
 const app = express();
@@ -15,7 +15,7 @@ const app = express();
 // access-control
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'http://localhost:4173'],
     credentials: true,
   }),
 );

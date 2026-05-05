@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { matchedData, validationResult } from 'express-validator';
-import { mapValidationErrors } from '../errors/mapValidationErrors';
-import { sendError } from '../errors/sendError';
+import { mapValidationErrors } from '../errors/mapValidationErrors.js';
+import { sendError } from '../errors/sendError.js';
 
 export const handleValidationResult = (req: Request, res: Response, next: NextFunction) => {
   // validation

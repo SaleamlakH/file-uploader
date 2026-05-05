@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { sendError } from '../errors/sendError';
+import { sendError } from '../errors/sendError.js';
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) {

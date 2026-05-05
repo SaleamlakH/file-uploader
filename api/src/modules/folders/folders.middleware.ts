@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import type { AuthenticatedRequest } from '../../types/authenticated-request';
-import { getFolderForOwner } from './folders.service';
-import { sendError } from '../../errors/sendError';
+import type { AuthenticatedRequest } from '../../types/authenticated-request.ts';
+import { getFolderForOwner } from './folders.service.js';
+import { sendError } from '../../errors/sendError.js';
 
 const createLoadOwnedFolderMw = (options?: { includeFiles?: boolean }) => {
   return async (req: Request, res: Response, next: NextFunction) => {

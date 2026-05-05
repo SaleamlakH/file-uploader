@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from 'express';
 import passport from 'passport';
 import type { IVerifyOptions } from 'passport-local';
-import { createUserWithDefaultFolder } from './auth.service';
-import type { Users } from '../../../generated/prisma/client';
+import { createUserWithDefaultFolder } from './auth.service.js';
+import type { Users } from '../../../generated/prisma/client.js';
 import bcrypt from 'bcryptjs';
-import { sendError } from '../../errors/sendError';
-import type { AuthenticatedRequest } from '../../types/authenticated-request';
+import { sendError } from '../../errors/sendError.js';
+import type { AuthenticatedRequest } from '../../types/authenticated-request.js';
 
 // signup form
 const signup = async (req: Request, res: Response, next: NextFunction) => {

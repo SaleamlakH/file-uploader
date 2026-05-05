@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
-import { prisma } from '../../lib/prisma';
-import { handleValidationResult } from '../../middlewares/handleValidationResult';
+import { prisma } from '../../lib/prisma.js';
+import { handleValidationResult } from '../../middlewares/handleValidationResult.js';
 
 const isEmailExist = async (email: string) => {
   const user = await prisma.users.findUnique({ where: { email } });

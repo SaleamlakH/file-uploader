@@ -1,6 +1,6 @@
-import type { Shares } from '../../../generated/prisma/client';
-import { prisma } from '../../lib/prisma';
-import type { ShareCreateParameter } from '../../types/db';
+import type { Shares } from '../../../generated/prisma/client.js';
+import { prisma } from '../../lib/prisma.js';
+import type { ShareCreateParameter } from '../../types/db.js';
 
 // http://domain/shares/token
 export const createShare = async ({ resourceId, expiresAt }: ShareCreateParameter) => {

@@ -1,5 +1,5 @@
-import type { Folders } from '../../../generated/prisma/client';
-import { prisma } from '../../lib/prisma';
+import type { Folders } from '../../../generated/prisma/client.ts';
+import { prisma } from '../../lib/prisma.js';
 import type {
   FileGetParameters,
   FileUpload,
@@ -8,7 +8,7 @@ import type {
   FolderGetByIdParameters,
   FolderGetParameters,
   FolderUpdate,
-} from '../../types/db';
+} from '../../types/db.ts';
 
 export const createFolder = ({ ownerId, name }: FolderCreateNew) => {
   return prisma.folders.create({

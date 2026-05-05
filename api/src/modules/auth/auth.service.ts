@@ -1,4 +1,4 @@
-import { prisma } from '../../lib/prisma';
+import { prisma } from '../../lib/prisma.js';
 
 export const createUserWithDefaultFolder = async (email: string, password: string) => {
   return prisma.users.create({

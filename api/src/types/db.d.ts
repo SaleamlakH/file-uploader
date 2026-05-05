@@ -1,4 +1,4 @@
-import type { Files, Folders, Shares } from '../../generated/prisma/client';
+import type { Files, Folders, Shares } from '../../generated/prisma/client.js';
 
 // folders table types
 export type FolderCreateNew = Pick<Folders, 'name' | 'ownerId'>;

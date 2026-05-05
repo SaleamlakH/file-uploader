@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
-import * as services from './folders.service';
-import type { AuthenticatedRequest } from '../../types/authenticated-request';
+import * as services from './folders.service.js';
+import type { AuthenticatedRequest } from '../../types/authenticated-request.js';
 import multer from 'multer';
-import { sendError } from '../../errors/sendError';
-import { supabase } from '../../lib/supabase';
+import { sendError } from '../../errors/sendError.js';
+import { supabase } from '../../lib/supabase.js';
 
 export const createFolder = async (req: Request, res: Response, next: NextFunction) => {
   const authReq = req as AuthenticatedRequest;

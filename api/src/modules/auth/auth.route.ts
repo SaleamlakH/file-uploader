@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import * as authController from './auth.controller';
-import { validateLogin, validateSignup } from './auth.validator';
+import * as authController from './auth.controller.js';
+import { validateLogin, validateSignup } from './auth.validator.js';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail, getUserById } from './auth.service';
-import { requireAuth } from '../../middlewares/requireAuth';
+import { getUserByEmail, getUserById } from './auth.service.js';
+import { requireAuth } from '../../middlewares/requireAuth.js';
 
 // authentication verifier
 passport.use(

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { requireAuth } from '../../middlewares/requireAuth';
-import { loadOwnedFolder } from '../folders/folders.middleware';
-import { validateShareForm } from './shares.validator';
+import { requireAuth } from '../../middlewares/requireAuth.js';
+import { loadOwnedFolder } from '../folders/folders.middleware.js';
+import { validateShareForm } from './shares.validator.js';
 import {
   downloadSharedFolderFile,
   generateShareLink,
   getSharedFolderWithFiles,
-} from './shares.controllers';
+} from './shares.controllers.js';
 
 const sharesRouter = Router();
 

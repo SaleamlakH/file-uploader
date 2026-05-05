@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import { createShare, getShare } from './shares.service';
-import { getFile, getFolderById } from '../folders/folders.service';
-import { sendError } from '../../errors/sendError';
-import { supabase } from '../../lib/supabase';
+import { createShare, getShare } from './shares.service.js';
+import { getFile, getFolderById } from '../folders/folders.service.js';
+import { sendError } from '../../errors/sendError.js';
+import { supabase } from '../../lib/supabase.js';
 
 export const generateShareLink = async (req: Request, res: Response, next: NextFunction) => {
   const { expiresAt } = req.body;

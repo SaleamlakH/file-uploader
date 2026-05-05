@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { handleValidationResult } from '../../middlewares/handleValidationResult';
+import { handleValidationResult } from '../../middlewares/handleValidationResult.js';
 
 const folderIdValidation = body('folderId').trim().notEmpty().withMessage('folderId is required');
 
