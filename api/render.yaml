@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: file-uploader-api
+    runtime: node
+    repo: https://github.com/SaleamlakH/file-uploader
+    plan: free
+    region: virginia
+    rootDir: .
+    buildCommand: npm install && npm run build
+    startCommand: npm run prod
+    autoDeploy: true
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SESSION_SECRET_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
