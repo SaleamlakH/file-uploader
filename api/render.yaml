@@ -5,7 +5,7 @@ services:
     repo: https://github.com/SaleamlakH/file-uploader
     plan: free
     region: virginia
-    rootDir: .
+    rootDir: api
     buildCommand: npm install && npm run build
     startCommand: npm run prod
     autoDeploy: true
