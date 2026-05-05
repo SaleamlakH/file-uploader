@@ -21,3 +21,5 @@ services:
         sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
+      - key: CORS_ORIGINS
+        sync: false
