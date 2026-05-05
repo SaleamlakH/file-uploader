@@ -6,7 +6,7 @@
   "scripts": {
     "prod": "node dist/src/index",
     "dev": "tsx watch src/index",
-    "build": "tsc -p tsconfig.prod.json",
+    "build": "prisma generate && tsc -p tsconfig.prod.json",
     "format:check": "prettier --check src/*",
     "format:write": "prettier --write src/*"
   },
